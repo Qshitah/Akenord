@@ -13,7 +13,7 @@ import Shop from "./components/Shop/Shop";
 import { useDispatch, useSelector } from "react-redux";
 import { products } from "./actions/ProductActions";
 import Details from "./components/Details/Details";
-import Login from "./components/Login/login";
+import Login from "./components/Login/Login";
 import { wishlists } from "./actions/WishlistActions";
 import Wishlist from "./components/Wishlist/Wishlist";
 import { carts } from "./actions/CartActions";

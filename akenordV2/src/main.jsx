@@ -4,7 +4,7 @@ import subCategoryReducer from './reducer/subCategoryReducer.jsx';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import productReducer from './reducer/productReducer.jsx';
-import authReducer from './reducer/AuthReducer.jsx';
+import authReducer from './reducer/authReducer.jsx';
 import wishlistReducer from './reducer/wishlistReducer.jsx';
 import cartReducer from './reducer/cartReducer.jsx';
 import userReducer from './reducer/userReducer.jsx';

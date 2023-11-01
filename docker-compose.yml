@@ -1,0 +1,26 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./akenord-backend  # This path should point to the directory containing the backend Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+
+  frontend:
+    build:
+      context: ./akenordV2  # This path should point to the directory containing the frontend Dockerfile
+    ports:
+      - 3000:3000
+
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: Akenord123456
+      MYSQL_DATABASE: akenord
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
