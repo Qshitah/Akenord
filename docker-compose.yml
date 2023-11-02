@@ -19,8 +19,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: Akenord123456
       MYSQL_DATABASE: akenord
-    volumes:
-      - mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306  # Add this line to publish the MySQL port
 
 volumes:
   mysql-data:
