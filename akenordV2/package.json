@@ -1,6 +1,7 @@
 {
   "name": "akenordv2",
   "private": true,
+  "homepage": "https://akenord.ma/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

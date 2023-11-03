@@ -1,5 +1,4 @@
-# Use the official Node.js 14 image based on Alpine Linux
-FROM node:14-alpine
+FROM node:21-alpine3.17
 
 # Set the working directory to /app inside the container
 WORKDIR /app
@@ -14,6 +13,7 @@ RUN npm install
 # Copy the rest of the application files to the container
 # This assumes that the application files are in the akenordV2 directory
 COPY . .
+
 
 # Expose port 3000 for the Vite development server
 EXPOSE 3000

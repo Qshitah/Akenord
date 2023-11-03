@@ -14,4 +14,12 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app/
 
 COPY --from=BUILDER /build/target/application.jar /app/
-CMD java -jar /app/application.jar
+
+# Copy the wait-for-it.sh script
+COPY wait-for-it.sh /app/wait-for-it.sh
+
+# Make the script executable
+RUN chmod +x /app/wait-for-it.sh
+
+# Define the command using wait-for-it.sh before running the application
+CMD ["./wait-for-it.sh", "mysql:3306", "--", "java", "-jar", "/app/application.jar"]
