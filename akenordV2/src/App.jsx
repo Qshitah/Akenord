@@ -27,6 +27,7 @@ import AddProduct from "./components/Admin/AddProduct/AddProduct";
 import { categories } from "./actions/CategoryActions";
 import { subCategories } from "./actions/SubCategoryActions";
 import Products from "./components/Admin/Products/Products";
+import NotFound from "./components/NotFound";
 
 function App() {
   const [token, setToken] = useState(sessionStorage.getItem("token"));
@@ -268,6 +269,9 @@ function App() {
           ),
         },
       ],
+    },{
+      path :'*',
+      element: <NotFound />
     }
   ]);
 
