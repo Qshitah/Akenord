@@ -36,7 +36,6 @@ export default function TabItem({ value, index, client }) {
               client.username
             }/${value.name.replace(/\s/g, "-")}`
           );
-          console.log(response.data);
         } catch (error) {
           console.log(error);
         }
@@ -54,7 +53,6 @@ export default function TabItem({ value, index, client }) {
             "http://localhost:8080/api/wishlists",
             object
           );
-          console.log(response.data);
         } catch (error) {
           console.log(error);
         }

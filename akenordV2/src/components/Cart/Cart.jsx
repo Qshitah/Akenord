@@ -91,7 +91,6 @@ export default function Cart({ listProducts, listCart, client }) {
               client.username
             }/${e.currentTarget.name}`
           ).then((response) => {
-            console.log(response.data);
           }).catch ((error) => {
             console.log(error);
 

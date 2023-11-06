@@ -79,7 +79,6 @@ export default function AddProduct({ categories, subCategories, products, client
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Server response:", data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -216,11 +215,9 @@ export default function AddProduct({ categories, subCategories, products, client
 
     await axios.post(`http://localhost:8080/api/product/${client.username}`,{...data,...client})
     .then(async(response) => {
-      console.log(response.data);
 
       await axios.post("http://localhost:8080/api/upload",formData)
       .then((response) => {
-        console.log(response.data);
       }).catch((error) => {
         console.log(error);
       })

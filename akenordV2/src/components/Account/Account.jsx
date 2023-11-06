@@ -8,7 +8,6 @@ import ChangePassword from "./ChangePassword";
 export default function Account({ client, orders, userData }) {
   const [tab, setTab] = useState("dashboard");
   
-  console.log(userData);
 
 
   const handleChangeTab = (e) => {

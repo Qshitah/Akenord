@@ -68,12 +68,10 @@ export default function ChangePassword({ client }) {
             });
           }
 
-          console.log(passwords)
 
           await axios
               .put(`http://localhost:8080/api/users/${client.username}/password`, {...passwords,...client})
               .then((response) => {
-                console.log(response);
                 setUpdateSuccess(true);
                 setPasswords({
                     username: client.username,

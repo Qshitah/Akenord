@@ -1,4 +1,5 @@
 import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
 
@@ -19,6 +20,7 @@ export default function GoogleLogin() {
               firstName: user.given_name,
               lastName: user.family_name,
               email: user.email 
+              
             }
             await axios.post("http://localhost:8080/api/auth/loginG",loginData)
             .then((responseP) => {

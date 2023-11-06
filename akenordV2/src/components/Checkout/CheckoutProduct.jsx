@@ -50,7 +50,6 @@ export default function CheckoutProduct({
         console.log(error);
       }
     } else {
-      console.log("Empty");
     }
   };
 
@@ -95,7 +94,7 @@ export default function CheckoutProduct({
 
         <tbody>
           {data.products.map((value) => (
-            <tr key={value.name}>
+            <tr key={value.idCart}>
               <td>
                 <img
                   src={JSON.parse(value.images)[0]}
@@ -108,7 +107,7 @@ export default function CheckoutProduct({
                 <h3 className="table__title">{value.name}</h3>
                 {value.size.trim() !== "" && <p className="table__description">Size: {value.size}</p>}
                 {value.color.trim() !== "" && <p className="table__description">Color: {value.color}</p>}
-                <p className="table__quantity">x {data.quantity[value.name]}</p>
+                <p className="table__quantity">x {data.quantity[value.idCart]}</p>
               </td>
 
               <td>
@@ -116,7 +115,7 @@ export default function CheckoutProduct({
                   {(
                     (value.discountPrice !== 0
                       ? value.discountPrice
-                      : value.price) * data.quantity[value.name]
+                      : value.price) * data.quantity[value.idCart]
                   ).toFixed(2)}
                   Dh
                 </span>

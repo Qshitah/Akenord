@@ -42,6 +42,11 @@ export default function DetailProduct({ product, client }) {
     setMainImg(e.target.src);
   };
 
+  const handleImageColorClick = (e,img) => {
+    e.preventDefault();
+    setMainImg(img);
+  };
+
   const handleColorClick = (e) => {
     e.preventDefault();
     setColor(e.target.value);
@@ -65,25 +70,25 @@ export default function DetailProduct({ product, client }) {
               client.username
             }/${product.name.replace(/\s/g, "-")}`
           );
-          console.log(response.data);
         } catch (error) {
-          console.log(error);
         }
       } else {
+        if(cart.filter(value => (value.name == product.name && value.size == size && value.color == color)).length !== 0){
+          return setAddedSuccessfully(true);
+
+        }
         let object = {
           username: client.username,
           product_name: product.name,
           quantity: quantity,
           size: size,
           color: color,
-
           created_at: new Date(),
         };
         try {
           await axios
             .post("http://localhost:8080/api/carts", object)
             .then((response) => {
-              console.log(response.data);
               cart !== null
                 ? setCart([...cart, object.product_name])
                 : setCart([object.product_name]);
@@ -99,7 +104,6 @@ export default function DetailProduct({ product, client }) {
               setAddedSuccessfully(true);
             });
         } catch (error) {
-          console.log(error);
         }
       }
     } else {
@@ -121,7 +125,6 @@ export default function DetailProduct({ product, client }) {
                 client.username
               }/${product.name.replace(" ", "-")}`
             );
-            console.log(response.data);
           } catch (error) {
             console.log(error);
           }
@@ -139,7 +142,6 @@ export default function DetailProduct({ product, client }) {
               "http://localhost:8080/api/wishlists",
               object
             );
-            console.log(response.data);
           } catch (error) {
             console.log(error);
           }
@@ -262,6 +264,7 @@ export default function DetailProduct({ product, client }) {
                       onClick={handleColorClick}
                       value={value.name}
                       title={value.name}
+                      onClick={value.type !== "color" && ((e) => handle)}</li>}
                     ></button>
                   </li>
                 ))}

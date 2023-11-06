@@ -29,7 +29,7 @@ export default function Checkout({ client, userData }) {
         const productPrice = parseFloat(
           value.discountPrice !== 0 ? value.discountPrice : value.price
         );
-        const productQuantity = data.quantity[value.name];
+        const productQuantity = data.quantity[value.idCart];
         subtotal += productPrice * productQuantity;
       });
     }
@@ -159,7 +159,7 @@ export default function Checkout({ client, userData }) {
   useEffect(() => {
     if (data !== undefined) {
       data.products.forEach((value) => {
-        orderData.products.push([JSON.parse(value.images)[0],value.name, data.quantity[value.name],(value.discountPrice !== 0 ? value.discountPrice : value.price),value.size,value.color]);
+        orderData.products.push([JSON.parse(value.images)[0],value.name, data.quantity[value.idCart],(value.discountPrice !== 0 ? value.discountPrice : value.price),value.size,value.color]);
       });
       // Make sure to update the state to trigger a re-render
       setOrderData({ ...orderData, products: orderData.products, orderTotal: calculateCartSubtotal() });

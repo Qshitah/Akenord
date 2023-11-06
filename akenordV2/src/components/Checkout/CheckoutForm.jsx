@@ -126,12 +126,10 @@ export default function CheckoutForm({ client, villes, shipping, handleRegionsCh
 
       await axios.post("http://localhost:8080/api/orders", orderData)
       .then((response) => {
-        console.log(response.data);
         Email(orderData).then((response2) =>{
           const byteArray = new Uint8Array(response2);
           axios.post("http://localhost:8080/send-email", {emailContent: Array.from(byteArray) ,clientEmail: orderData.email}) // Send only the email content
           .then((response3) => {
-            console.log(response3.data);
             // You can add additional logic or UI updates here
           })
           .catch((error) => {
@@ -141,6 +139,7 @@ export default function CheckoutForm({ client, villes, shipping, handleRegionsCh
         })
         dispatch(removeAll());
         navigate("/");
+        return;
       })
       .catch((error) => {
         console.error("Failed to send Order: ", error);

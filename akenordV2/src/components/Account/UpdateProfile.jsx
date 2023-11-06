@@ -95,7 +95,6 @@ export default function UpdateProfile({user, client}) {
 
       await axios.put(`http://localhost:8080/api/users/${client.username}`, {...client,...userInfo})
         .then((response) => {
-          console.log(response);
           dispatch(userUpdated(userInfo));
           setUpdateSuccess(true);
         }).catch((error) => {

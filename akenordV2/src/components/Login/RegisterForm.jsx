@@ -151,7 +151,6 @@ export default function RegisterForm() {
     
 
   useEffect(()=>{
-    console.log(user);
     if (error) {
       console.log(error);
     } else if (user) {

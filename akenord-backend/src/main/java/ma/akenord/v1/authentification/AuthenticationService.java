@@ -223,7 +223,7 @@ public class AuthenticationService {
                     .errorMessage("Error Authentication")
                     .build();
         }
-        User user = userRepository.findByFacebookId(request.getId());
+        User user = userRepository.findByGoogleId(request.getId());
 
         if(user == null){
             Role role_user = new Role();

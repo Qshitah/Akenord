@@ -20,7 +20,6 @@ export default function Wishlist({ listProducts, listWishlist, client }) {
   
   const handleRemoveFromWishlist = async (e) =>{
     e.preventDefault();
-    console.log(e.currentTarget.name);
     if(products !== null){
       if(listWishlist.includes(e.currentTarget.name)){
         setProducts(products.filter(item => item.name !== e.currentTarget.name));
@@ -30,7 +29,6 @@ export default function Wishlist({ listProducts, listWishlist, client }) {
           const response = await axios.delete(
             `http://localhost:8080/api/wishlists/${client.username}/${e.currentTarget.name.replace(/\s/g, '-')}`
           );
-          console.log(response.data);
         } catch (error) {
           console.log(error);
         }

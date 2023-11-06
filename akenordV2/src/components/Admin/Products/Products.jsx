@@ -10,7 +10,6 @@ export default function Products({ listProducts,client }) {
 
   const [orderProducts,setOrderProducts] = useState([]);
 
-  console.log(listProducts);
   
   useEffect(() => {
     const fetchOrderProducts = async () => {

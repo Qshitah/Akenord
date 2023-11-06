@@ -21,8 +21,6 @@ export default function ProductItem({ value,index, client }) {
   }, [ObjectWishlists, ObjectCarts]);
 
 
-
-
   const handleWishlistClick = async (e) =>{
     e.preventDefault();
     if(wishlist !== null){
@@ -34,7 +32,6 @@ export default function ProductItem({ value,index, client }) {
           const response = await axios.delete(
             `http://localhost:8080/api/wishlists/${client.username}/${value.name.replace(/\s/g, '-')}`
           );
-          console.log(response.data);
         } catch (error) {
           console.log(error);
         }

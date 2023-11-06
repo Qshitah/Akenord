@@ -46,13 +46,11 @@ export default function ReviewProduct({ review, product_name }) {
   const onSubmitClick = async (e) => {
     e.preventDefault();
 
-    console.log(formData);
     try {
       const response = await axios.post(
         "http://localhost:8080/api/review",
         formData
       );
-      console.log(response.data);
       setReviews([...reviews, formData]);
 
       setFormData({
