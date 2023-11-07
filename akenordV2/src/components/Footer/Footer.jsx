@@ -3,21 +3,17 @@ import FooterContainer from './FooterContainer'
 
 const footerInfo = 
   {
-    address : "562 Wellington Road, Street 32, San Francisco",
-    phone: "+01 2222 365 /(+91) 01 2345 6789",
-    hours: "10:00 - 18:00, Mon - Sat",
+    address : "SOUK AL MASSIRA EL KHADRA, Fnideq 93100",
+    phone: "+212 654404611 ",
+    hours: "07:00 - 21:00, Mon - Sun",
     social: [
       {
         title: "facebook",
-        url: ""
-      },
-      {
-        title: "twitter",
-        url: ""
+        url: "https://www.facebook.com/akenord.ma/"
       },
       {
         title: "instagram",
-        url: ""
+        url: "https://www.instagram.com/akenordofficial/"
       }
       
     ]
@@ -31,7 +27,7 @@ export default function Footer() {
 
       <div className="footer__bottom">
         <p className="copyright">&copy; 2023 Akenord. All rights reserved</p>
-        <span className="designer">Designed by Marouan</span>
+        <span className="designer">Developped by Qshitah</span>
       </div>
     </footer>
   )

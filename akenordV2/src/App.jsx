@@ -28,6 +28,7 @@ import { categories } from "./actions/CategoryActions";
 import { subCategories } from "./actions/SubCategoryActions";
 import Products from "./components/Admin/Products/Products";
 import NotFound from "./components/NotFound";
+import ScrollToTop from "./ScrollToTop";
 
 function App() {
   const [token, setToken] = useState(sessionStorage.getItem("token"));
@@ -180,7 +181,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Main listWishlist={listWishlists} listCart={listCart} />,
+      element: <Main listWishlist={listWishlists} listCart={listCart}/>,
       children: [
         {
           index: true,

@@ -42,14 +42,12 @@ export default function DetailProduct({ product, client }) {
     setMainImg(e.target.src);
   };
 
-  const handleImageColorClick = (e,img) => {
-    e.preventDefault();
-    setMainImg(img);
-  };
-
   const handleColorClick = (e) => {
     e.preventDefault();
     setColor(e.target.value);
+    if(e.target.id == "image"){
+      setMainImg(e.target.style.background);
+    }
   };
 
   const handleSizeClick = (e) => {
@@ -261,10 +259,10 @@ export default function DetailProduct({ product, client }) {
                         backgroundPosition: "center center",
                         cursor: "pointer",
                       }}
-                      onClick={handleColorClick}
+                      onClick={(e) => handleColorClick(e)}
                       value={value.name}
+                      id={value.type}
                       title={value.name}
-                      onClick={value.type !== "color" && ((e) => handle)}</li>}
                     ></button>
                   </li>
                 ))}

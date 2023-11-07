@@ -1,68 +1,76 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const content = [
-  {
-    title: "Address",
-    links: [
-      {
-        title: "About Us",
-        url: "",
-      },
-      {
-        title: "Delivery Information",
-        url: "",
-      },
-      {
-        title: "Privacy Policy",
-        url: "",
-      },
-      {
-        title: "Terms & Conditions",
-        url: "",
-      },
-      {
-        title: "Contact Us",
-        url: "",
-      },
-      {
-        title: "Support Center",
-        url: "",
-      },
-    ],
-  },
-  {
-    title: "My Account",
-    links: [
-      {
-        title: "Sign In",
-        url: "",
-      },
-      {
-        title: "View Cart",
-        url: "",
-      },
-      {
-        title: "My Wishlist",
-        url: "",
-      },
-      {
-        title: "Track My Order",
-        url: "",
-      },
-      {
-        title: "Help",
-        url: "",
-      },
-      {
-        title: "Order",
-        url: "",
-      },
-    ],
-  },
-];
+
 
 export default function FooterContainer({ info }) {
+
+  const phoneNumber = '+212654404611';
+  const message = 'Hi Support Team, I need assistance with an issue. Can you please help me?'
+
+  const whatsappLink = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+
+  const content = [
+    {
+      title: "Address",
+      links: [
+        {
+          title: "About Us",
+          url: "",
+        },
+        {
+          title: "Delivery Information",
+          url: "",
+        },
+        {
+          title: "Privacy Policy",
+          url: "",
+        },
+        {
+          title: "Terms & Conditions",
+          url: "",
+        },
+        {
+          title: "Contact Us",
+          url: whatsappLink,
+        },
+        {
+          title: "Support Center",
+          url: "",
+        },
+      ],
+    },
+    {
+      title: "My Account",
+      links: [
+        {
+          title: "Sign In",
+          url: "/login",
+        },
+        {
+          title: "View Cart",
+          url: "/cart",
+        },
+        {
+          title: "My Wishlist",
+          url: "/wishlist",
+        },
+        {
+          title: "Track My Order",
+          url: "",
+        },
+        {
+          title: "Help",
+          url: "",
+        },
+        {
+          title: "Order",
+          url: (sessionStorage.getItem('token') ? '/myaccount' : '/login'),
+        },
+      ],
+    },
+  ];
+
   return (
     <div className="footer__container grid">
       <div className="footer__content">
@@ -88,16 +96,8 @@ export default function FooterContainer({ info }) {
           <h4 className="footer__subtitle">Follow Me</h4>
 
           <div className="footer__social-links flex">
-            <a href="">
-              <img
-                src="/img/icon-facebook.svg"
-                alt=""
-                className="footer__social-icon"
-              />
-            </a>
-
             {info.social.map((value) => (
-              <a href={value.url} key={value.title}>
+              <a href={value.url} key={value.title} target="_blank" rel="noopener noreferrer">
                 <img
                   src={`/img/icon-${value.title}.svg`}
                   alt=""
@@ -116,9 +116,18 @@ export default function FooterContainer({ info }) {
           <ul className="footer__links">
             {value.links.map((link) => (
               <li key={link.title}>
-                <Link to={link.url} className="footer__link">
-                  {link.title}
-                </Link>
+                {link.title === "Contact Us" ? (
+                  <a href={link.url} target="_blank" rel="noopener noreferrer" className="footer__link">
+                    {link.title}
+                  </a>
+                )
+                  : (<Link to={link.url} target={link.title === "Contact Us" ? "_blank" : ""}
+                    rel={link.title === "Contact Us" ? "noopener noreferrer" : ""}
+                    className="footer__link"
+                    >
+                    {link.title}
+                  </Link>)
+                }
               </li>
             ))}
           </ul>
