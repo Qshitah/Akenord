@@ -13,7 +13,7 @@ export default function Categories() {
     const fetchFeaturedProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/subCategories"
+          "https://akenord.onrender.com/api/subCategories"
         );
         setCategories(response.data._embedded.subCategories);
         setLoading(false);
@@ -92,12 +92,6 @@ export default function Categories() {
           ))}
         </div>
 
-        <div className="swiper-button-next">
-          <i className="fi fi-rs-angle-right"></i>
-        </div>
-        <div className="swiper-button-prev">
-          <i className="fi fi-rs-angle-left"></i>
-        </div>
       </div>
     </section>
   );

@@ -7,7 +7,7 @@
 
   /*========== Colors ==========*/
   /* Color mode HSL(hue, saturation, lightness) */
-  --first-color: hsl(176, 88%, 27%);
+  --first-color: #ffab07;
   --first-color-alt: hsl(129, 44%, 94%);
   --second-color: hsl(34, 94%, 87%);
   --title-color: hsl(0, 0%, 13%);
@@ -227,7 +227,7 @@ table {
 }
 
 .nav__logo-img {
-  width: 120px;
+  width: 150px;
 }
 
 .nav__menu {
@@ -882,7 +882,7 @@ table {
 }
 
 .footer__logo-img {
-  width: 120px;
+  width: 150px;
 }
 
 .footer__subtitle {

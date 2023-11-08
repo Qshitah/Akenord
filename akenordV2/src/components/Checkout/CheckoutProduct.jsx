@@ -28,7 +28,7 @@ export default function CheckoutProduct({
     if (coupon.name.trim() !== "") {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/coupons/search/findByCode?code=${coupon.name}`
+          `https://akenord.onrender.com/api/coupons/search/findByCode?code=${coupon.name}`
         );
         setCoupon({
           ...coupon,

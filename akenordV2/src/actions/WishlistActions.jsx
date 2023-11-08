@@ -43,7 +43,7 @@ export const wishlists = (userData) => {
   return async (dispatch) => {
     try {
       // Make an API request to your backend for authentication
-      const response = await axios.post(`http://localhost:8080/api/wishlists/${userData.username}/products`,userData);
+      const response = await axios.post(`https://akenord.onrender.com/api/wishlists/${userData.username}/products`,userData);
 
 
       // Dispatch a success action with user data

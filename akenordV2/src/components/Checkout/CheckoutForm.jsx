@@ -124,11 +124,11 @@ export default function CheckoutForm({ client, villes, shipping, handleRegionsCh
     if(erreur.erreur.trim() === ""){
       
 
-      await axios.post("http://localhost:8080/api/orders", orderData)
+      await axios.post("https://akenord.onrender.com/api/orders", orderData)
       .then((response) => {
         Email(orderData).then((response2) =>{
           const byteArray = new Uint8Array(response2);
-          axios.post("http://localhost:8080/send-email", {emailContent: Array.from(byteArray) ,clientEmail: orderData.email}) // Send only the email content
+          axios.post("https://akenord.onrender.com/send-email", {emailContent: Array.from(byteArray) ,clientEmail: orderData.email}) // Send only the email content
           .then((response3) => {
             // You can add additional logic or UI updates here
           })

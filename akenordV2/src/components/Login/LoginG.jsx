@@ -22,7 +22,7 @@ export default function GoogleLogin() {
               email: user.email 
               
             }
-            await axios.post("http://localhost:8080/api/auth/loginG",loginData)
+            await axios.post("https://akenord.onrender.com/api/auth/loginG",loginData)
             .then((responseP) => {
                 sessionStorage.setItem("token", responseP.data.token);
                 window.location.href = "/";

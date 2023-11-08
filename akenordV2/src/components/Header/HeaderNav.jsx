@@ -58,7 +58,7 @@ export default function HeaderNav({path,listWishlist, listCart}) {
   return (
     <div className="nav container">
       <Link to="/" className="nav__logo">
-        <img src="/img/logo.svg" alt="" className="nav__logo-img" />
+        <img src="/logoText.png" alt="" className="nav__logo-img" />
       </Link>
       <div className={navMenu} id="nav-menu">
         <div className="nav__menu-top">

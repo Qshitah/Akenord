@@ -42,7 +42,7 @@ export const loginUser = (userData) => {
     try {
 
       // Make an API request to your backend for authentication
-      const response = await axios.post("http://localhost:8080/api/auth/login", userData);
+      const response = await axios.post("https://akenord.onrender.com/api/auth/login", userData);
 
       // Dispatch a success action with user data
       dispatch(loginUserSuccess(response.data));
@@ -65,7 +65,7 @@ export const register = (userData) => {
         try {
     
           // Make an API request to your backend for authentication
-          const response = await axios.post("http://localhost:8080/api/auth/register", userData);
+          const response = await axios.post("https://akenord.onrender.com/api/auth/register", userData);
     
           // Dispatch a success action with user data
           dispatch(registerSuccess(response.data));

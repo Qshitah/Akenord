@@ -21,7 +21,7 @@ export default function LoginF() {
                 email: response.data.email 
         }
         
-        await axios.post("http://localhost:8080/api/auth/loginfb",loginData)
+        await axios.post("https://akenord.onrender.com/api/auth/loginfb",loginData)
             .then((responseP) => {
                 sessionStorage.setItem("token", responseP.data.token);
                 window.location.href = "/";

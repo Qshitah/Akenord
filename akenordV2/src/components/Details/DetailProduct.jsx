@@ -64,7 +64,7 @@ export default function DetailProduct({ product, client }) {
 
         try {
           const response = await axios.delete(
-            `http://localhost:8080/api/carts/${
+            `https://akenord.onrender.com/api/carts/${
               client.username
             }/${product.name.replace(/\s/g, "-")}`
           );
@@ -85,7 +85,7 @@ export default function DetailProduct({ product, client }) {
         };
         try {
           await axios
-            .post("http://localhost:8080/api/carts", object)
+            .post("https://akenord.onrender.com/api/carts", object)
             .then((response) => {
               cart !== null
                 ? setCart([...cart, object.product_name])
@@ -119,7 +119,7 @@ export default function DetailProduct({ product, client }) {
 
           try {
             const response = await axios.delete(
-              `http://localhost:8080/api/wishlists/${
+              `https://akenord.onrender.com/api/wishlists/${
                 client.username
               }/${product.name.replace(" ", "-")}`
             );
@@ -137,7 +137,7 @@ export default function DetailProduct({ product, client }) {
 
           try {
             const response = await axios.post(
-              "http://localhost:8080/api/wishlists",
+              "https://akenord.onrender.com/api/wishlists",
               object
             );
           } catch (error) {

@@ -30,7 +30,7 @@ export default function ProductItem({ value,index, client }) {
 
         try {
           const response = await axios.delete(
-            `http://localhost:8080/api/wishlists/${client.username}/${value.name.replace(/\s/g, '-')}`
+            `https://akenord.onrender.com/api/wishlists/${client.username}/${value.name.replace(/\s/g, '-')}`
           );
         } catch (error) {
           console.log(error);
@@ -50,7 +50,7 @@ export default function ProductItem({ value,index, client }) {
   
         try {
           const response = await axios.post(
-            "http://localhost:8080/api/wishlists",
+            "https://akenord.onrender.com/api/wishlists",
             object
           );
           console.log(response.data);

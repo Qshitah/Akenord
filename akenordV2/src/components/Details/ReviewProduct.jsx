@@ -48,7 +48,7 @@ export default function ReviewProduct({ review, product_name }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/review",
+        "https://akenord.onrender.com/api/review",
         formData
       );
       setReviews([...reviews, formData]);

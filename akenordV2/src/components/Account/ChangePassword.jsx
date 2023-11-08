@@ -70,7 +70,7 @@ export default function ChangePassword({ client }) {
 
 
           await axios
-              .put(`http://localhost:8080/api/users/${client.username}/password`, {...passwords,...client})
+              .put(`https://akenord.onrender.com/api/users/${client.username}/password`, {...passwords,...client})
               .then((response) => {
                 setUpdateSuccess(true);
                 setPasswords({

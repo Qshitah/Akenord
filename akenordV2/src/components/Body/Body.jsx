@@ -20,14 +20,14 @@ export default function Body({listProducts, client}) {
         title= "Fashion Trending <span>Great Collection</span>"
         description="Save more with coupons & up to 20% off"
         shop="chal"
-        image="/img/home-img.png"
+        image="/home_img.png"
       />
       <Categories/>
       <Products products={listProducts} client={client}/>
       <Deals />
       <Arrivals products={listProducts} client={client}/>
       <ShowCase products={listProducts} />
-      <Newsletter />
+      {client.username.trim() === "" && <Newsletter />}
     </main>
   );
 }

@@ -12,7 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -25,14 +27,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
     @Autowired
     private final AuthenticationProvider authenticationProvider;
 
-
+    @Autowired
+    private CorsFilter corsFilter;
 
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
 
         httpSecurity
+                .addFilterBefore(corsFilter, ChannelProcessingFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
+
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("api/products").permitAll()
                         .requestMatchers("api/products/*/reviews").permitAll()

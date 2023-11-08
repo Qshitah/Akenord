@@ -75,7 +75,7 @@ export default function FooterContainer({ info }) {
     <div className="footer__container grid">
       <div className="footer__content">
         <Link to="/" className="footer__logo">
-          <img src="/img/logo.svg" alt="" className="footer__logo-img" />
+          <img src="/logoText.png" alt="" className="footer__logo-img" />
         </Link>
 
         <h4 className="footer__subtitle">Contact</h4>

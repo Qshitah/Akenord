@@ -29,8 +29,19 @@ import { subCategories } from "./actions/SubCategoryActions";
 import Products from "./components/Admin/Products/Products";
 import NotFound from "./components/NotFound";
 import ScrollToTop from "./ScrollToTop";
+import CommingSoon from "./components/CommingSoon/CommingSoon";
+import ReactGA from 'react-ga';
 
 function App() {
+
+  useEffect(() => {
+    // Initialize ReactGA with your Measurement ID
+    ReactGA.initialize('G-STPT7BJPVX'); // Replace with your Measurement ID
+
+    // Send a pageview to Google Analytics when the app loads
+    ReactGA.pageview(window.location.pathname);
+  }, []);
+
   const [token, setToken] = useState(sessionStorage.getItem("token"));
   const [loading, setLoading] = useState(true);
   const [listProducts, setListProducts] = useState([]);
@@ -45,6 +56,8 @@ function App() {
     roles : []
   });
   const [ordersList, setOrdersList] = useState([]);
+
+  const [commingSoon,SetCommingSoon] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -170,12 +183,24 @@ function App() {
     }
   }, [loginData]);
 
+  useEffect(() => {
+    if(userData !== undefined){
+      setLoading(false)
+    }
+  },[userData])
+
   if (loading) {
     return (
       <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <ReactLoading type="bubbles" color="hsl(176, 88%, 27%)" height={150} width={150} />
+            <ReactLoading type="bubbles" color="#ffab07" height={150} width={150} />
       </div>
     );
+  }
+
+  if(commingSoon){
+    return(
+      <CommingSoon />
+    )
   }
 
   const router = createBrowserRouter([
@@ -222,15 +247,14 @@ function App() {
               <Navigate to={"/"} />
             ) : !sessionStorage.getItem("token") ? (
               <Navigate to={"/login"} />
-            ) : (
-              <Checkout client={loginData} userData={userData} />
+            ) : ( userData === undefined ? setLoading(true) : <Checkout client={loginData} userData={userData} />
             ),
         },
         {
           path: "myaccount",
           element: !sessionStorage.getItem("token") ? (
             <Navigate to={"/login"} />
-          ) : (
+          ) : ( userData === undefined ? setLoading(true) :
             <Account
               client={loginData}
               orders={ordersList}

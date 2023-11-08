@@ -66,12 +66,6 @@ export default function Arrivals({products , client}) {
             })}
         </div>
 
-        <div className="swiper-button-next">
-          <i className="fi fi-rs-angle-right"></i>
-        </div>
-        <div className="swiper-button-prev">
-          <i className="fi fi-rs-angle-left"></i>
-        </div>
       </div>
     </section>
   );
