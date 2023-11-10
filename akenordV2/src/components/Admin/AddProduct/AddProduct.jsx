@@ -215,9 +215,10 @@ export default function AddProduct({ categories, subCategories, products, client
 
     await axios.post(`https://akenord.onrender.com/api/product/${client.username}`,{...data,...client})
     .then(async(response) => {
-
+        
       await axios.post("https://akenord.onrender.com/api/upload",formData)
       .then((response) => {
+        window.location.reload();
       }).catch((error) => {
         console.log(error);
       })

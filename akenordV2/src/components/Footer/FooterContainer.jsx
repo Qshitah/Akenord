@@ -111,7 +111,7 @@ export default function FooterContainer({ info }) {
 
       {content.map((value) => (
         <div className="footer__content" key={value.title}>
-          <h3 className="footer__title">{value.title}</h3>
+          <h2 className="footer__title">{value.title}</h2>
 
           <ul className="footer__links">
             {value.links.map((link) => (
@@ -135,7 +135,7 @@ export default function FooterContainer({ info }) {
       ))}
 
       <div className="footer__content">
-        <h3 className="footer__title">Secured Payment Gateways</h3>
+        <h2 className="footer__title">Secured Payment Gateways</h2>
 
         <img src="/img/payment-method.png" alt="" className="payment__img" />
       </div>

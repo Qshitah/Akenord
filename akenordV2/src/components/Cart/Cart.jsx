@@ -194,7 +194,7 @@ export default function Cart({ listProducts, listCart, client }) {
                     </td>
 
                     <td>
-                      <h3 className="table__title">{value.name}</h3>
+                      <h2 className="table__title">{value.name}</h2>
                       {(value.size !== "" || value.size == null) && <p className="table__description">Size: {value.size.toUpperCase()}</p>}
                       {(value.color !== "" || value.color == null) && <p className="table__description">Color: {value.color}</p>}
                     </td>
@@ -254,7 +254,7 @@ export default function Cart({ listProducts, listCart, client }) {
         <div className="cart__group grid">
           <div>
             <div className="cart__shipping">
-              <h3 className="section__title">Calculate Shipping</h3>
+              <h2 className="section__title">Calculate Shipping</h2>
 
               <form action="" className="form grid">
                 <select
@@ -302,7 +302,7 @@ export default function Cart({ listProducts, listCart, client }) {
             </div>
 
             <div className="cart__coupon">
-              <h3 className="section__title">Apply Coupon</h3>
+              <h2 className="section__title">Apply Coupon</h2>
 
               <form  className="coupon__form form grid" onSubmit={handleClickCoupon}>
                 <div className="form__group grid">
@@ -330,7 +330,7 @@ export default function Cart({ listProducts, listCart, client }) {
           </div>
 
           <div className="cart__total">
-            <h3 className="section__title">Cart Totals</h3>
+            <h2 className="section__title">Cart Totals</h2>
 
             <table className="cart__total-table">
               <tbody>

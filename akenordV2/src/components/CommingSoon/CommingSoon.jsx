@@ -11,7 +11,7 @@ export default function CommingSoon() {
                     <video src="/bg.mp4" muted={true} autoPlay={true} loop={true}></video>
                 </div>
                 <h1>Coming Soon!</h1>
-                <h3>Site Almost Ready</h3>
+                <h2>Site Almost Ready</h2>
                 <div className={styles.progress_bar}><span></span></div>
                 <div className={styles.sm}>
                     <a href="https://www.facebook.com/akenord.ma/"><i className="fab fa-facebook-f"></i></a>

@@ -72,7 +72,7 @@ export default function Deals() {
             style={{ backgroundImage: `url(${value.image})` }}
           >
             <div className="deals__group">
-              <h3 className="deals__brand">{value.brand}</h3>
+              <h2 className="deals__brand">{value.brand}</h2>
               <span className="deals__category">{value.category}</span>
             </div>
 

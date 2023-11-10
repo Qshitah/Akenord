@@ -71,7 +71,7 @@ export default function Wishlist({ listProducts, listWishlist, client }) {
 
                 <td>
                   <Link to={"../details?id="+ index + "&search=" + value.name.toLowerCase().replace(/\s+/g, "-")} >
-                    <h3 className="table__title">{value.name}</h3>
+                    <h2 className="table__title">{value.name}</h2>
                     </Link>
                   <p className="table__description">{value.description}</p>
                 </td>

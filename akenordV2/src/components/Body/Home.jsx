@@ -13,7 +13,7 @@ export default function Home({subtitle,title,description,shop,image}) {
           <p className="home__description">
             {description}
           </p>
-          <Link to={"/shop?" + shop} className="btn">
+          <Link to={"/shop?search=" + shop} className="btn">
             Shop Now
           </Link>
         </div>

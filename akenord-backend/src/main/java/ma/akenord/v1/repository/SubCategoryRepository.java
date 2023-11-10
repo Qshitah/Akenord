@@ -1,8 +1,6 @@
 package ma.akenord.v1.repository;
 
 import ma.akenord.v1.entity.SubCategory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -17,5 +15,6 @@ public interface SubCategoryRepository extends JpaRepository<SubCategory,Long> {
     List<SubCategory> findAll();
 
     SubCategory findByName(String name);
+
 
 }

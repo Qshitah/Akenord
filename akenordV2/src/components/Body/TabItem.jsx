@@ -148,9 +148,9 @@ export default function TabItem({ value, index, client }) {
           <h3 className="product__name">{value.name}</h3>
         </Link>
         <div className="product__rating">
-          {Array.from({ length: value.stars }, (_, index) => {
-            <i className="fi fi-rs-star" key={index}></i>;
-          })}
+          {Array.from({ length: value.stars }, (_, index) => (
+            <i className="fi fi-rs-star" key={index}></i>
+          ))}
         </div>
         <div className="product__price flex">
           {value.discountPrice !== 0 && (

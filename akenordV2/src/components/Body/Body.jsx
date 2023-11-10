@@ -9,9 +9,9 @@ import Newsletter from "./Newsletter";
 import { useDispatch, useSelector } from "react-redux";
 import { products } from "../../actions/ProductActions";
 
-export default function Body({listProducts, client}) {
+export default function Body({listProducts, client, subcategories}) {
 
-
+  console.log(listProducts);
 
   return (
     <main className="main">
@@ -19,10 +19,10 @@ export default function Body({listProducts, client}) {
         subtitle="Hot promotions"
         title= "Fashion Trending <span>Great Collection</span>"
         description="Save more with coupons & up to 20% off"
-        shop="chal"
+        shop="poncho"
         image="/home_img.png"
       />
-      <Categories/>
+      <Categories subcategories={subcategories}/>
       <Products products={listProducts} client={client}/>
       <Deals />
       <Arrivals products={listProducts} client={client}/>

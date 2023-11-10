@@ -45,8 +45,13 @@ export default function DetailProduct({ product, client }) {
   const handleColorClick = (e) => {
     e.preventDefault();
     setColor(e.target.value);
-    if(e.target.id == "image"){
-      setMainImg(e.target.style.background);
+    if (e.currentTarget.id === "image") {
+      const urlRegex = /url\(["']?([^"']*)["']?\)/;
+      const matches = e.currentTarget.style.background.match(urlRegex);
+
+      // Extracted URL
+      const imageUrl = matches ? matches[1] : null;
+      setMainImg(imageUrl);
     }
   };
 
@@ -68,12 +73,17 @@ export default function DetailProduct({ product, client }) {
               client.username
             }/${product.name.replace(/\s/g, "-")}`
           );
-        } catch (error) {
-        }
+        } catch (error) {}
       } else {
-        if(cart.filter(value => (value.name == product.name && value.size == size && value.color == color)).length !== 0){
+        if (
+          cart.filter(
+            (value) =>
+              value.name == product.name &&
+              value.size == size &&
+              value.color == color
+          ).length !== 0
+        ) {
           return setAddedSuccessfully(true);
-
         }
         let object = {
           username: client.username,
@@ -101,8 +111,7 @@ export default function DetailProduct({ product, client }) {
               );
               setAddedSuccessfully(true);
             });
-        } catch (error) {
-        }
+        } catch (error) {}
       }
     } else {
       navigate("/login");
@@ -196,7 +205,7 @@ export default function DetailProduct({ product, client }) {
         </div>
 
         <div className="details__group">
-          <h3 className="details__title">{product.name}</h3>
+          <h2 className="details__title">{product.name}</h2>
           <p className="details__brand">
             Category: <span>{product.subcategory}</span>
           </p>
@@ -314,6 +323,7 @@ export default function DetailProduct({ product, client }) {
             <button
               onClick={handleWishlistClick}
               className="details__action-btn"
+              style={{ cursor: "pointer" }}
             >
               <i
                 className={
@@ -337,13 +347,14 @@ export default function DetailProduct({ product, client }) {
           </ul>
         </div>
       </div>
-      {addedSuccessfully && 
-      <div class="custom-alert">
-        <Alert severity="success">
-          <AlertTitle>Success</AlertTitle>
-          Added Successfully
-        </Alert>
-      </div>}
+      {addedSuccessfully && (
+        <div class="custom-alert">
+          <Alert severity="success">
+            <AlertTitle>Success</AlertTitle>
+            Added Successfully
+          </Alert>
+        </div>
+      )}
     </section>
   );
 }

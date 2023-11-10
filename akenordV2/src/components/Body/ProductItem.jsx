@@ -53,7 +53,6 @@ export default function ProductItem({ value,index, client }) {
             "https://akenord.onrender.com/api/wishlists",
             object
           );
-          console.log(response.data);
         } catch (error) {
           console.log(error);
         }
@@ -100,9 +99,9 @@ export default function ProductItem({ value,index, client }) {
           <h3 className="product__name">{value.name}</h3>
         </Link>
         <div className="product__rating">
-          {Array.from({ length: value.stars }, (_, index) => {
-            <i className="fi fi-rs-star" key={index}></i>;
-          })}
+          {Array.from({ length: value.stars }, (_, index) => (
+            <i className="fi fi-rs-star" key={index}></i>
+          ))}
         </div>
         <div className="product__price flex">
           {value.discountPrice !== 0 && <span className="new__price">{value.discountPrice}Dh</span>}

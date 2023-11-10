@@ -69,7 +69,6 @@ export const carts = (userData) => {
         cartItems.push(cartItem);
       });
 
-      console.log(cartItems);
 
 
       // Dispatch a success action with user data

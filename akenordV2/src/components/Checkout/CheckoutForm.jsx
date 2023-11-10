@@ -151,7 +151,7 @@ export default function CheckoutForm({ client, villes, shipping, handleRegionsCh
 
   return (
     <div className="checkout__group">
-      <h3 className="section__title">Billing Details</h3>
+      <h2 className="section__title">Billing Details</h2>
 
       <form className="form grid" onSubmit={handleCheckoutClick} id="checkout-form">
         {erreur.type === "firstName" && (
@@ -270,7 +270,7 @@ export default function CheckoutForm({ client, villes, shipping, handleRegionsCh
 
         />
 
-        <h3 className="checkout__title">Additional Information</h3>
+        <h2 className="checkout__title">Additional Information</h2>
 
         <textarea
           name="orderNote"

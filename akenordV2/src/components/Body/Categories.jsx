@@ -4,28 +4,18 @@ import { Link } from "react-router-dom";
 import Swiper from "swiper";
 import ReactLoading from 'react-loading'
 
-export default function Categories() {
+export default function Categories(props) {
   const [loading, setLoading] = useState(true);
   const [categories,setCategories] = useState([]);
 
-  useEffect(() => {
 
-    const fetchFeaturedProducts = async () => {
-      try {
-        const response = await axios.get(
-          "https://akenord.onrender.com/api/subCategories"
-        );
-        setCategories(response.data._embedded.subCategories);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-      }
+  useEffect(() => {
+    if(props.subcategories !== undefined){
+      setCategories(props.subcategories);
+      setLoading(false)
     }
 
-    fetchFeaturedProducts();
-
-    
-  }, []);
+  })
 
   useEffect(() => {
     if (!loading) {
@@ -73,21 +63,21 @@ export default function Categories() {
 
   return (
     <section className="categories container section">
-      <h3 className="section__name">
-        <span>Popular</span> Categories
-      </h3>
+      <h2 className="section__name" >
+        Popular Categories
+      </h2>
       <br />
       <div className="categories__container swiper">
         <div className="swiper-wrapper">
-          {categories.map((value) => (
+          {categories.filter(value => value.image !== null).map((value) => (
             <Link
               to={"/shop?subcategory=" + value.name.toLowerCase().replace(/\s+/g, "-")}
               className="category__item swiper-slide"
               key={value.name.toLowerCase()}
             >
-              <img src={value.image} alt="" className="category__img" />
+              <img src={"/subcategory/" + value.image} alt="" className="category__img" />
 
-              <h3 className="category__name">{value.name}</h3>
+              <h3 className="category__title">{value.name}</h3>
             </Link>
           ))}
         </div>

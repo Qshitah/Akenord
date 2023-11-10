@@ -8,6 +8,14 @@ export default function Arrivals({products , client}) {
   const [loading, setLoading] = useState(true);
   const [listProducts,setListProducts] = useState([]);
 
+  Array.prototype.shuffle = function () {
+    for (let i = this.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [this[i], this[j]] = [this[j], this[i]];
+    }
+    return this;
+  };
+
   useEffect(() => {
     if(products !== null){
       setListProducts(products)
@@ -53,17 +61,15 @@ export default function Arrivals({products , client}) {
 
   return (
     <section className="new__arrivals container section">
-      <h3 className="section__title">
+      <h2 className="section__title">
         <span>New</span> Arrivals
-      </h3>
+      </h2>
 
       <div className="new__container swiper">
         <div className="swiper-wrapper">
-            {listProducts.map((value,key) => {
-                if(value.arrivals){
-                    return <ProductItem value={value} key={key} index={key} client={client} />
-                }
-            })}
+            {listProducts.slice().shuffle().filter(value => value.arrivals).slice(0,6).map((value,key) => (
+                <ProductItem value={value} key={key} index={key} client={client} />
+            ))}
         </div>
 
       </div>

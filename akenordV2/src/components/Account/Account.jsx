@@ -78,7 +78,7 @@ export default function Account({ client, orders, userData }) {
               }
               id="dashboard"
             >
-              <h3 className="tab__header">Hello {client.username}!</h3>
+              <h2 className="tab__header">Hello {client.username}!</h2>
 
               <div className="tab__body">
                 <p className="tab__description">
@@ -93,7 +93,7 @@ export default function Account({ client, orders, userData }) {
               className={"tab__content " + (tab === "orders" && "active-tab")}
               id="orders"
             >
-              <h3 className="tab__header">Your Orders</h3>
+              <h2 className="tab__header">Your Orders</h2>
 
               <div className="tab__body">
                 <Orders orders={orders}/>
@@ -106,7 +106,7 @@ export default function Account({ client, orders, userData }) {
               }
               id="update-profile"
             >
-              <h3 className="tab__header">Update Profile</h3>
+              <h2 className="tab__header">Update Profile</h2>
 
               <div className="tab__body">
                 <UpdateProfile user={userData} client={client}/>
@@ -119,7 +119,7 @@ export default function Account({ client, orders, userData }) {
               }
               id="change-password"
             >
-              <h3 className="tab__header">Change Password</h3>
+              <h2 className="tab__header">Change Password</h2>
 
               <div className="tab__body">
                 <ChangePassword client={client}/>

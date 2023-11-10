@@ -9,7 +9,7 @@ import { LoginSocialFacebook } from "reactjs-social-login";
 import LoginF from "./LoginF";
 
 
-export default function RegisterForm() {
+export default function RegisterForm(props) {
   const [formData,setFormData] = useState({
      username: "",
 
@@ -144,7 +144,7 @@ export default function RegisterForm() {
       });
     }
 
-    dispatch(register(formData))
+    dispatch(register(formData));
 
   }
 
@@ -173,12 +173,14 @@ export default function RegisterForm() {
      })
       setSucess(true);
     }
+
+    
   },[user,error])
 
 
   return (
     <div className="register">
-      <h3 className="section__title">Create an Account</h3>
+      <h2 className="section__title">Create an Account</h2>
       {sucess && <p style={{color : "green"}}>Creating Account has been done Successfully, Confirm your email for verification</p>}
       {error ? (error.status !== 401 && <p style={{color : "red", fontSize : "12px"}}>{error.errors}</p>) : ""}
         

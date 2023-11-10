@@ -82,7 +82,7 @@ export default function CheckoutProduct({
   }
   return (
     <div className="checkout__group">
-      <h3 className="section__title">Cart Totals</h3>
+      <h2 className="section__title">Cart Totals</h2>
 
       <table className="order__table">
         <thead>
@@ -104,7 +104,7 @@ export default function CheckoutProduct({
               </td>
 
               <td>
-                <h3 className="table__title">{value.name}</h3>
+                <h2 className="table__title">{value.name}</h2>
                 {value.size.trim() !== "" && <p className="table__description">Size: {value.size}</p>}
                 {value.color.trim() !== "" && <p className="table__description">Color: {value.color}</p>}
                 <p className="table__quantity">x {data.quantity[value.idCart]}</p>
@@ -209,7 +209,7 @@ export default function CheckoutProduct({
       </form>
 
       <div className="payment__methods">
-        <h3 className="checkout__title payment__title">Payment</h3>
+        <h2 className="checkout__title payment__title">Payment</h2>
 
         <div className="payment__option flex">
           <input

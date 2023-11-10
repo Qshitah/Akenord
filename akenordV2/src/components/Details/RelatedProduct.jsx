@@ -4,9 +4,9 @@ import ProductItem from "../Body/ProductItem";
 export default function RelatedProduct({ products }) {
   return (
     <section className="products container section--lg">
-      <h3 className="section__title">
+      <h2 className="section__title">
         <span>Related</span> Products
-      </h3>
+      </h2>
 
       <div className="products__container grid">
         {products.map((value, key) => (

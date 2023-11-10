@@ -4,6 +4,15 @@ const tab_btn = ["featured", "popular", "new-added"];
 
 export default function Products({ products, client }) {
   const currentDate = new Date();
+  const threshold = 24 * 60 * 60 * 1000;
+
+  Array.prototype.shuffle = function () {
+    for (let i = this.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [this[i], this[j]] = [this[j], this[i]];
+    }
+    return this;
+  };
 
   const [tabActive, setTabActive] = useState("featured");
 
@@ -38,23 +47,21 @@ export default function Products({ products, client }) {
             key={key}
           >
             <div className="products__container grid">
-              {products.map((valueP, keyP) => {
-                if (key === 0) {
-                  if (valueP.featured) {
-                    return <TabItem key={keyP} value={valueP} index={keyP} client={client} />;
-                  }
-                } else if (key === 1) {
-                  if (valueP.popular) {
-                    return <TabItem key={keyP} value={valueP} index={keyP} client={client} />;
-                  }
-                }else{
-                  const date = new Date(valueP.createdAt);
-                  if(date.getFullYear() === currentDate.getFullYear() && date.getMonth() === currentDate.getMonth()){
-                    return <TabItem key={keyP} value={valueP} index={keyP} client={client} />;
-                  }
-                  
-                }
-              })}
+              {key === 0 && products.slice().shuffle().filter(value => value.featured).slice(0,6).map((valueP,keyP )=> (
+                <TabItem key={keyP} value={valueP} index={keyP} client={client} />
+              ))}
+              {key === 1 && products.slice().shuffle().filter(value => value.popular).slice(0,6).map((valueP,keyP) => (
+                <TabItem key={keyP} value={valueP} index={keyP} client={client} />
+              ))}
+              {
+                key === 2 && products.slice().shuffle().filter(value =>{
+                  const date = new Date(value.createdAt);
+                  const timeDifference = Math.abs(currentDate - date);
+                  return timeDifference <= threshold;
+                }).slice(0,6).map((valueP,keyP) => (
+                  <TabItem key={keyP} value={valueP} index={keyP} client={client} />
+                ))
+              }
             </div>
           </div>
         ))}

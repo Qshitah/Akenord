@@ -51,7 +51,7 @@ export default function Shop({ listProducts, client }) {
         listProducts.filter((product) => product.subcategory === subcategory)
       );
     }
-    if(searchParam !== null){
+    if(searchParam.trim() !== "" ){
        setProducts(listProducts.filter(product => {
           // Convert the product name to lowercase for comparison
           const productNameLower = product.name.toLowerCase();

@@ -5,7 +5,7 @@ import { LoginSocialFacebook } from "reactjs-social-login";
 import { loginUser } from "../../actions/AuthActions";
 import { useDispatch } from "react-redux";
 
-export default function LoginF() {
+export default function LoginF(props) {
 
     const dispatch = useDispatch();
 
@@ -20,6 +20,8 @@ export default function LoginF() {
                 lastName: response.data.last_name,
                 email: response.data.email 
         }
+
+        props.loading();
         
         await axios.post("https://akenord.onrender.com/api/auth/loginfb",loginData)
             .then((responseP) => {
@@ -27,6 +29,8 @@ export default function LoginF() {
                 window.location.href = "/";
             }).catch((error) =>{
                 console.log(error);
+                props.loading();
+
             })
 
       }}

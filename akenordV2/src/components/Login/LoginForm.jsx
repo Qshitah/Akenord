@@ -8,7 +8,7 @@ import LoginG from "./LoginG";
 import axios from "axios";
 
 
-export default function LoginForm() {
+export default function LoginForm(props) {
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
@@ -57,6 +57,8 @@ export default function LoginForm() {
       });
     }
 
+    props.loading();
+
     dispatch(loginUser(loginData))
 
   };
@@ -64,6 +66,8 @@ export default function LoginForm() {
   useEffect(()=>{
     if (error) {
       console.log(error);
+      props.loading();
+
   
     } else if (user) {
       sessionStorage.setItem("token", user.token);
@@ -73,7 +77,7 @@ export default function LoginForm() {
 
   return (
     <div className="login">
-      <h3 className="section__title">Login</h3>
+      <h2 className="section__title">Login</h2>
 
       {error ? (error.status === 401 && <h5 style={{color : "red", fontSize : "12px", marginBottom: "15px"}}>{error.errors}</h5>) : ""}
       <form onSubmit={handleLogin} className="form grid">
@@ -108,9 +112,9 @@ export default function LoginForm() {
         </div>
       <div style={{ textAlign: "center",display:"flex", justifyContent:"center",alignItems:"center",gap:"20px" }}>
           <GoogleOAuthProvider clientId="750916950674-ncsi9e8vt9upss747hi421vhcs38gjc5.apps.googleusercontent.com" >
-            <LoginG />
+            <LoginG loading={props.loading}/>
           </GoogleOAuthProvider>
-          <LoginF/>
+          <LoginF loading={props.loading}/>
         </div>
 
         

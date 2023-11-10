@@ -3,9 +3,10 @@ import axios from "axios";
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
 
-export default function GoogleLogin() {
+export default function GoogleLogin(props) {
   const login = useGoogleLogin({
     onSuccess: (response) => {
+      props.loading();
       if (response.access_token) {
         // You can retrieve user information using Google's API
         fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
@@ -20,7 +21,6 @@ export default function GoogleLogin() {
               firstName: user.given_name,
               lastName: user.family_name,
               email: user.email 
-              
             }
             await axios.post("https://akenord.onrender.com/api/auth/loginG",loginData)
             .then((responseP) => {
@@ -28,14 +28,18 @@ export default function GoogleLogin() {
                 window.location.href = "/";
             }).catch((error) =>{
                 console.log(error);
+                props.loading();
+
             })
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {console.log(error);props.loading();
+          });
       } else {
         console.log("Google login failed. Token not found.");
       }
     },
-    onError: (error) => console.log(error),
+    onError: (error) => {console.log(error);props.loading();},
+    
   });
 
   return (

@@ -1,13 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function BreadCrumb({firstP,secondP,thirdP}) {
   return (
     <section className="breadcrumb">
       <ul className="breadcrumb__list flex container">
         <li>
-          <a href="index.html" className="breadcrumb__link">
+          <Link to="/" className="breadcrumb__link">
             {firstP}
-          </a>
+          </Link>
         </li>
         <li>
           <span className="breadcrumb__link">{">"}</span>

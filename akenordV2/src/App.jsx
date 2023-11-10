@@ -57,7 +57,7 @@ function App() {
   });
   const [ordersList, setOrdersList] = useState([]);
 
-  const [commingSoon,SetCommingSoon] = useState(true);
+  const [commingSoon,SetCommingSoon] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -118,7 +118,6 @@ function App() {
     }
     if (ObjectProducts) {
       setListProducts(ObjectProducts._embedded.products);
-      // When user data is available, set loading to false
       setLoading(false);
     }
     if (ObjectCategories) {
@@ -183,11 +182,6 @@ function App() {
     }
   }, [loginData]);
 
-  useEffect(() => {
-    if(userData !== undefined){
-      setLoading(false)
-    }
-  },[userData])
 
   if (loading) {
     return (
@@ -210,7 +204,7 @@ function App() {
       children: [
         {
           index: true,
-          element: <Body listProducts={listProducts} client={loginData} />,
+          element: <Body listProducts={listProducts} client={loginData} subcategories={listSubCategories} />,
         },
         {
           path: "shop",

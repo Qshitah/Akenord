@@ -4,31 +4,31 @@ import ShowCaseItem from "./ShowCaseItem";
 const showCase = ["Hot Releases", "Deals & Outlet", "Top Selling", "Trendy"];
 
 export default function ShowCase({ products }) {
+  Array.prototype.shuffle = function () {
+    for (let i = this.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [this[i], this[j]] = [this[j], this[i]];
+    }
+    return this;
+  };
   return (
     <section className="showcase section">
       <div className="showcase__container container grid">
         {showCase.map((value, key) => (
           <div className="showcase__wrapper" key={key}>
-            <h3 className="section__title">{value}</h3>
-            {products.map((valueP, keyP) => {
-              if (key === 0) {
-                if (valueP.hot) {
-                  return <ShowCaseItem key={keyP} value={valueP} index={keyP} />;
-                }
-              } else if (key === 1) {
-                if (valueP.deals) {
-                  return <ShowCaseItem key={keyP} value={valueP} index={keyP} />;
-                }
-              } else if (key === 2) {
-                if (valueP.top) {
-                  return <ShowCaseItem key={keyP} value={valueP} index={keyP} />;
-                }
-              } else{
-                if (valueP.trendy) {
-                    return <ShowCaseItem key={keyP} value={valueP} index={keyP} />;
-                }
-              }
-            })}
+            <h2 className="section__title">{value}</h2>
+            {key === 0 && products.slice().shuffle().filter(value => value.hot).slice(0,4).map((valueP,keyP )=> (
+                <ShowCaseItem key={keyP} value={valueP} index={keyP} />
+              ))}
+            {key === 1 && products.slice().shuffle().filter(value => value.deals).slice(0,4).map((valueP,keyP )=> (
+                <ShowCaseItem key={keyP} value={valueP} index={keyP} />
+              ))}
+            {key === 2 && products.slice().shuffle().filter(value => value.top).slice(0,4).map((valueP,keyP )=> (
+                <ShowCaseItem key={keyP} value={valueP} index={keyP} />
+              ))}
+            {key === 3 && products.slice().shuffle().filter(value => value.trendy).slice(0,4).map((valueP,keyP )=> (
+                <ShowCaseItem key={keyP} value={valueP} index={keyP} />
+              ))}
           </div>
         ))}
       </div>

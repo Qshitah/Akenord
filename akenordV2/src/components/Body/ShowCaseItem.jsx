@@ -39,7 +39,7 @@ export default function ShowCaseItem({ value,index }) {
           <span
             className={value.discountPrice !== 0 ? "old__price" : "new__price"}
           >
-            {value.Price}Dh
+            {value.price}Dh
           </span>
         </div>
       </div>
