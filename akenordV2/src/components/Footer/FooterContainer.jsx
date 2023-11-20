@@ -10,13 +10,18 @@ export default function FooterContainer({ info }) {
 
   const whatsappLink = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
 
+  const handleContactUs = () => {
+    const email = 'support@akenord.ma';
+    window.location.href = `mailto:${email}`;
+  };
+
   const content = [
     {
       title: "Address",
       links: [
         {
           title: "About Us",
-          url: "",
+          url: "/aboutus",
         },
         {
           title: "Delivery Information",
@@ -54,14 +59,6 @@ export default function FooterContainer({ info }) {
         {
           title: "My Wishlist",
           url: "/wishlist",
-        },
-        {
-          title: "Track My Order",
-          url: "",
-        },
-        {
-          title: "Help",
-          url: "",
         },
         {
           title: "Order",
@@ -120,13 +117,15 @@ export default function FooterContainer({ info }) {
                   <a href={link.url} target="_blank" rel="noopener noreferrer" className="footer__link">
                     {link.title}
                   </a>
-                )
-                  : (<Link to={link.url} target={link.title === "Contact Us" ? "_blank" : ""}
-                    rel={link.title === "Contact Us" ? "noopener noreferrer" : ""}
+                ) : link.title === "Support Center" ? 
+                <a onClick={handleContactUs} href="" target="_blank" rel="noopener noreferrer" className="footer__link">
+                  {link.title}
+                </a>
+                  : <Link to={link.url}
                     className="footer__link"
                     >
                     {link.title}
-                  </Link>)
+                  </Link>
                 }
               </li>
             ))}

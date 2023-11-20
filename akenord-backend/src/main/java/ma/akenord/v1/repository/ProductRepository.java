@@ -24,6 +24,8 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query("SELECT p FROM Product p WHERE YEAR(p.createdAt) = :year AND MONTH(p.createdAt) = :month")
     List<Product> findByCreatedAtYearAndCreatedAtMonth(@Param("year") int year, @Param("month") int month , Pageable pageable);
 
+    @Query("SELECT p FROM Product p WHERE p.name = :productName")
+    Product findProductByName(@Param("productName") String productName);
     Product findByName(String name);
 
 

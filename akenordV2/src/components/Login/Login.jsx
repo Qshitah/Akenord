@@ -27,7 +27,7 @@ export default function Login() {
     <section className="main">
       <BreadCrumb firstP="Home" secondP="Login / Register" thirdP="" />
       <ClipLoader
-        color={"black"}
+        color={"#ffab07"}
         loading={loading}
         cssOverride={override}
         size={150}

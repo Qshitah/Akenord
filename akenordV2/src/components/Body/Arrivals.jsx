@@ -3,25 +3,27 @@ import ProductItem from "./ProductItem";
 import ReactLoading from 'react-loading';
 import Swiper from "swiper";
 
+Array.prototype.shuffle = function () {
+  for (let i = this.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this[i], this[j]] = [this[j], this[i]];
+  }
+  return this;
+};
+
 export default function Arrivals({products , client}) {
 
   const [loading, setLoading] = useState(true);
   const [listProducts,setListProducts] = useState([]);
 
-  Array.prototype.shuffle = function () {
-    for (let i = this.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [this[i], this[j]] = [this[j], this[i]];
-    }
-    return this;
-  };
+
 
   useEffect(() => {
     if(products !== null){
-      setListProducts(products)
+      setListProducts(products.slice().shuffle().filter(value => value.arrivals).slice(0,6))
       setLoading(false);
     }
-  })
+  },[])
 
   useEffect(() => {
     if(!loading) {
@@ -67,7 +69,7 @@ export default function Arrivals({products , client}) {
 
       <div className="new__container swiper">
         <div className="swiper-wrapper">
-            {listProducts.slice().shuffle().filter(value => value.arrivals).slice(0,6).map((value,key) => (
+            {listProducts.map((value,key) => (
                 <ProductItem value={value} key={key} index={key} client={client} />
             ))}
         </div>

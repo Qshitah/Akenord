@@ -28,7 +28,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("id") // Include id in JSON response
+    @JsonProperty("id")
     private Long id;
 
 
@@ -156,10 +156,9 @@ public class Product {
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,CascadeType.MERGE
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = {CascadeType.DETACH,CascadeType.MERGE
             ,CascadeType.PERSIST
             ,CascadeType.REFRESH})
-    @JsonIgnore
     private List<OrderProduct> orderProducts;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

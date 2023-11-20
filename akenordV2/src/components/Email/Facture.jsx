@@ -25,14 +25,13 @@ export default function Facture(orderData) {
         <div id=${styles.company} className=${styles.clearfix}>
           <div>Akenord</div>
           <div>
-            455 Foggy Heights,
-            <br /> Tangier,Morocco
+            Tangier,Morocco
           </div>
           <div>(212) 654-404611</div>
           <div>
             <a id=${
               styles.link
-            } href="mailto:marouan.akechtah@gmail.com">marouan.akechtah@gmail.com</a>
+            } href="mailto:support@akenord.ma">support@akenord.ma</a>
           </div>
         </div>
         <div id=${styles.project}>

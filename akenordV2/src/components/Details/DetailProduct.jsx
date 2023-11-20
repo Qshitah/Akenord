@@ -5,24 +5,30 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "../../actions/WishlistActions";
-import { addToCart } from "../../actions/CartActions";
-import { Alert, AlertTitle } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
+import { addToCart } from "../../actions/CartActions";
+
+const override = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  position: "fixed",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+};
 
 export default function DetailProduct({ product, client }) {
   const ObjectWishlists = useSelector((state) => state.wishlist.products);
   const ObjectCart = useSelector((state) => state.cart.products);
-  const [addedSuccessfully, setAddedSuccessfully] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [mainImg, setMainImg] = useState("");
-  const [color, setColor] = useState(
-    product.colors.length !== 0 ? product.colors[0].name : ""
-  );
-  const [size, setSize] = useState(
-    product.sizes.length !== 0 ? product.sizes[0].name : ""
-  );
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [wishlist, setWishlist] = useState(ObjectWishlists);
-  const [cart, setCart] = useState(ObjectCart);
+  const [wishlist, setWishlist] = useState([]);
+  const [cart, setCart] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -30,6 +36,8 @@ export default function DetailProduct({ product, client }) {
 
   useEffect(() => {
     setMainImg(JSON.parse(product.images)[0]);
+    setColor(product.colors.length !== 0 ? product.colors[0].name : "");
+    setSize(product.sizes.length !== 0 ? product.sizes[0].name : "");
   }, [product]);
 
   useEffect(() => {
@@ -44,15 +52,13 @@ export default function DetailProduct({ product, client }) {
 
   const handleColorClick = (e) => {
     e.preventDefault();
-    setColor(e.target.value);
-    if (e.currentTarget.id === "image") {
-      const urlRegex = /url\(["']?([^"']*)["']?\)/;
-      const matches = e.currentTarget.style.background.match(urlRegex);
+    const newColor = e.target.title;
 
-      // Extracted URL
-      const imageUrl = matches ? matches[1] : null;
-      setMainImg(imageUrl);
+    if (e.currentTarget.id === "image") {
+      setMainImg(e.currentTarget.src);
     }
+
+    setColor(newColor);
   };
 
   const handleSizeClick = (e) => {
@@ -62,56 +68,35 @@ export default function DetailProduct({ product, client }) {
 
   const handleCartClick = async (e) => {
     e.preventDefault();
+    console.log(client.username);
     if (client.username !== "") {
-      if (cart !== null && cart.includes(product.name)) {
-        setCart(cart.filter((item) => item !== product.name));
-        dispatch(removeFromCart(product.name));
-
-        try {
-          const response = await axios.delete(
-            `https://akenord.onrender.com/api/carts/${
-              client.username
-            }/${product.name.replace(/\s/g, "-")}`
-          );
-        } catch (error) {}
-      } else {
-        if (
-          cart.filter(
-            (value) =>
-              value.name == product.name &&
-              value.size == size &&
-              value.color == color
-          ).length !== 0
-        ) {
-          return setAddedSuccessfully(true);
-        }
-        let object = {
-          username: client.username,
-          product_name: product.name,
-          quantity: quantity,
-          size: size,
-          color: color,
-          created_at: new Date(),
-        };
-        try {
-          await axios
-            .post("https://akenord.onrender.com/api/carts", object)
-            .then((response) => {
-              cart !== null
-                ? setCart([...cart, object.product_name])
-                : setCart([object.product_name]);
-              dispatch(
-                addToCart({
-                  name: object.product_name,
-                  quantity: object.quantity,
-                  size: object.size,
-                  color: object.color,
-                  id: response.data.id,
-                })
-              );
-              setAddedSuccessfully(true);
-            });
-        } catch (error) {}
+      setLoading(true);
+      let object = {
+        username: client.username,
+        product_name: product.name,
+        quantity: quantity,
+        size: size,
+        color: color,
+        created_at: new Date(),
+      };
+      try {
+        const response = await axios.post(
+          "https://akenord.ma:8443/api/carts",
+          object
+        );
+        dispatch(
+          addToCart({
+            name: object.product_name,
+            quantity: object.quantity,
+            size: object.size,
+            color: object.color,
+            id: response.data.id,
+          })
+        );
+        console.log('yes');
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
       }
     } else {
       navigate("/login");
@@ -128,7 +113,7 @@ export default function DetailProduct({ product, client }) {
 
           try {
             const response = await axios.delete(
-              `https://akenord.onrender.com/api/wishlists/${
+              `https://akenord.ma:8443/api/wishlists/${
                 client.username
               }/${product.name.replace(" ", "-")}`
             );
@@ -146,7 +131,7 @@ export default function DetailProduct({ product, client }) {
 
           try {
             const response = await axios.post(
-              "https://akenord.onrender.com/api/wishlists",
+              "https://akenord.ma:8443/api/wishlists",
               object
             );
           } catch (error) {
@@ -179,12 +164,6 @@ export default function DetailProduct({ product, client }) {
 
     setQuantity(newQuantity);
   };
-
-  useEffect(() => {
-    if (addedSuccessfully) {
-      setTimeout(() => setAddedSuccessfully(false), 4000);
-    }
-  }, [addedSuccessfully]);
 
   return (
     <section className="details section--lg">
@@ -253,26 +232,29 @@ export default function DetailProduct({ product, client }) {
               <ul className="color__list">
                 {product.colors.map((value, key) => (
                   <li key={key}>
-                    <button
-                      className={
-                        "color__link" +
-                        (color === value.name ? " active__color" : "")
-                      }
-                      style={{
-                        background:
-                          value.type === "color"
-                            ? value.value
-                            : `url(${value.value})`,
-                        backgroundSize: "cover",
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center center",
-                        cursor: "pointer",
-                      }}
-                      onClick={(e) => handleColorClick(e)}
-                      value={value.name}
-                      id={value.type}
-                      title={value.name}
-                    ></button>
+                    {value.type === "image" ? (
+                      <img
+                        className={
+                          "color__link" +
+                          (color === value.name ? " active__color" : "")
+                        }
+                        src={value.value}
+                        onClick={(e) => handleColorClick(e)}
+                        id={value.type}
+                        title={value.name}
+                      />
+                    ) : (
+                      <div
+                        className={
+                          "color__link" +
+                          (color === value.name ? " active__color" : "")
+                        }
+                        style={{backgroundColor:value.value}}
+                        onClick={(e) => handleColorClick(e)}
+                        id={value.type}
+                        title={value.name}
+                      ></div>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -311,6 +293,15 @@ export default function DetailProduct({ product, client }) {
               onChange={handleQuantityChange}
             />
 
+            <ClipLoader
+              color={"#ffab07"}
+              loading={loading}
+              cssOverride={override}
+              size={150}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+
             <button
               className={
                 product.stock !== 0 ? "btn" : "btn__disabled" + " btn--sm"
@@ -347,14 +338,6 @@ export default function DetailProduct({ product, client }) {
           </ul>
         </div>
       </div>
-      {addedSuccessfully && (
-        <div class="custom-alert">
-          <Alert severity="success">
-            <AlertTitle>Success</AlertTitle>
-            Added Successfully
-          </Alert>
-        </div>
-      )}
     </section>
   );
 }

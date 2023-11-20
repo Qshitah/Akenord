@@ -24,7 +24,7 @@ export const subCategories = () => {
     try {
       // Make an API request to your backend for authentication
       const response = await axios.get(
-        "https://akenord.onrender.com/api/subCategories"
+        "https://akenord.ma:8443/api/subCategories"
       );
 
       // Dispatch a success action with user data

@@ -15,17 +15,16 @@ import java.util.Objects;
 @Table(name = "order_products")
 public class OrderProduct {
 
-    @EmbeddedId
-    private OrderProductId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @MapsId("orderId")
     @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.DETACH,CascadeType.MERGE
             ,CascadeType.PERSIST
             ,CascadeType.REFRESH})
 @JoinColumn(name = "order_id")
 private Order order;
 
-    @MapsId("productId")
     @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.DETACH,CascadeType.MERGE
             ,CascadeType.PERSIST
             ,CascadeType.REFRESH})
@@ -47,26 +46,6 @@ private Order order;
     private String size;
 
 
-    @Embeddable
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class OrderProductId implements Serializable {
-        private Long orderId;
-        private Long productId;
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            OrderProductId that = (OrderProductId) o;
-            return orderId.equals(that.orderId) && productId.equals(that.productId);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(orderId, productId);
-        }
-    }
 
 }

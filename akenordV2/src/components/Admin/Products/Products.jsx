@@ -13,7 +13,7 @@ export default function Products({ listProducts,client }) {
   
   useEffect(() => {
     const fetchOrderProducts = async () => {
-      await axios.post( "https://akenord.onrender.com/api/productsOrders",client)
+      await axios.post( "https://akenord.ma:8443/api/productsOrders",client)
         .then((response) =>{
           setOrderProducts(response.data)
         }).catch((error) =>{

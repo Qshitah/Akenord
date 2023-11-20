@@ -8,7 +8,6 @@ import ma.akenord.v1.entity.*;
 import ma.akenord.v1.repository.*;
 import ma.akenord.v1.request.CartRequest;
 import ma.akenord.v1.request.CartResponse;
-import ma.akenord.v1.request.WishlistResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,10 +33,11 @@ public class CartService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Transactional
     public CartResponse saveCart(CartRequest request){
         Optional<User> user = userRepository.findById(request.getUsername());
         if(user.isPresent()){
-            Product product = productRepository.findByName(request.getProduct_name());
+            Product product = productRepository.findProductByName(request.getProduct_name());
             if(product != null){
                 Optional<Cart> cart = cartRepository.findById(request.getUsername());
                 CartProduct cartProduct = new CartProduct();

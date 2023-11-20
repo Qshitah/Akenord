@@ -1,7 +1,6 @@
 {
   "name": "akenordv2",
   "private": true,
-  "homepage": "https://akenord.ma/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -25,6 +24,7 @@
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.7.0",
     "jwt-decode": "^4.0.0",
+    "primereact": "^10.0.9",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-dom": "^18.2.0",

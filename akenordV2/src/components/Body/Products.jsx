@@ -54,11 +54,8 @@ export default function Products({ products, client }) {
                 <TabItem key={keyP} value={valueP} index={keyP} client={client} />
               ))}
               {
-                key === 2 && products.slice().shuffle().filter(value =>{
-                  const date = new Date(value.createdAt);
-                  const timeDifference = Math.abs(currentDate - date);
-                  return timeDifference <= threshold;
-                }).slice(0,6).map((valueP,keyP) => (
+                key === 2 && products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt) )
+                .slice(0,6).map((valueP,keyP) => (
                   <TabItem key={keyP} value={valueP} index={keyP} client={client} />
                 ))
               }

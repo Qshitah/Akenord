@@ -94,6 +94,7 @@ export default function Details({ listProducts , client}) {
           products={listProducts.filter(
             (value, key) => value.subcategory === formData.subcategory
           )}
+          client = {client}
         />
       )}
     </div>

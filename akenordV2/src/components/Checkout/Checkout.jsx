@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import BreadCrumb from "../Shop/BreadCrumb";
 import CheckoutForm from "./CheckoutForm";
 import CheckoutProduct from "./CheckoutProduct";
@@ -6,10 +6,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import regions from "../../json/regions.json";
 import villesJson from "../../json/villes.json";
-
+import { Toast } from "primereact/toast";
 
 export default function Checkout({ client, userData }) {
-  
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -21,7 +20,7 @@ export default function Checkout({ client, userData }) {
   });
 
   const [data, setData] = useState();
-  
+
   const calculateCartSubtotal = () => {
     let subtotal = 0;
     if (data !== undefined) {
@@ -47,8 +46,10 @@ export default function Checkout({ client, userData }) {
       ville: "Ajdir‎",
       region: "1",
     },
-    price: 15,
+
+    price: 30,
   });
+
   const [orderData, setOrderData] = useState({
     username: "",
     firstName: "",
@@ -60,7 +61,7 @@ export default function Checkout({ client, userData }) {
     phoneNumber: "",
     postalCode: "",
     orderNote: "",
-    paiment: "Direct Bank Transfer",
+    paiment: "Cash on Delivery",
     products: [],
     coupon: "",
     orderTotal: 0,
@@ -84,12 +85,16 @@ export default function Checkout({ client, userData }) {
   const handleRegionsChange = (e) => {
     e.preventDefault();
     const name = e.currentTarget.name;
-    let price = 15;
-    if (name === "region" && e.currentTarget.value == 12) {
-      price = 30;
+    console.log(e.currentTarget.value);
+    let price = 30;
+    if (
+      name !== "region" &&
+      ["382", "346", "130", "209", "215", "248"].includes(e.currentTarget.value)
+    ) {
+      price = 15;
     }
-    if (name !== "region" && shipping.region.id == 12) {
-      price = 30;
+    if (orderData.products.length >= 3) {
+      price = 0;
     }
     if (name === "region") {
       const selectedRegion = regions.find(
@@ -100,6 +105,7 @@ export default function Checkout({ client, userData }) {
         [name]: selectedRegion,
         price: price,
       });
+      setOrderData({ ...orderData, shippingPrice: price });
     } else {
       const selectedRegion = villesJson.find(
         (value) => value.id == e.currentTarget.value
@@ -109,9 +115,9 @@ export default function Checkout({ client, userData }) {
         [name]: selectedRegion,
         price: price,
       });
+      setOrderData({ ...orderData, shippingPrice: price });
     }
   };
-
 
   const addRegion = (option, selectedRegion) => {
     if (option === "region") {
@@ -136,11 +142,8 @@ export default function Checkout({ client, userData }) {
         products: products,
         quantity: quantity,
       });
-     
     }
   }, [location, navigate]);
-
-
 
   useEffect(() => {
     if (userData) {
@@ -155,39 +158,55 @@ export default function Checkout({ client, userData }) {
     }
   }, [userData]);
 
-
   useEffect(() => {
     if (data !== undefined) {
       data.products.forEach((value) => {
-        orderData.products.push([JSON.parse(value.images)[0],value.name, data.quantity[value.idCart],(value.discountPrice !== 0 ? value.discountPrice : value.price),value.size,value.color]);
+        orderData.products.push([
+          JSON.parse(value.images)[0],
+          value.name,
+          data.quantity[value.idCart],
+          value.discountPrice !== 0 ? value.discountPrice : value.price,
+          value.size,
+          value.color,
+        ]);
       });
       // Make sure to update the state to trigger a re-render
-      setOrderData({ ...orderData, products: orderData.products, orderTotal: calculateCartSubtotal() });
+      orderData.products.length >= 3 && setShipping({ ...shipping, price: 0 });
+      orderData.products.length >= 3
+        ? setOrderData({
+            ...orderData,
+            products: orderData.products,
+            orderTotal: calculateCartSubtotal(),
+            shippingPrice: 0,
+          })
+        : setOrderData({
+            ...orderData,
+            products: orderData.products,
+            orderTotal: calculateCartSubtotal(),
+          });
     }
   }, [data]);
 
   useEffect(() => {
-    if(orderData.orderTotal !== 0){
+    if (orderData.orderTotal !== 0) {
       setOrderData({
         ...orderData,
-        total:(orderData.coupon == "" ? (orderData.orderTotal + orderData.shippingPrice).toFixed(2) : orderData.coupon.discountType === "percentage"
-        ? (
-          orderData.orderTotal *
-              (1 - orderData.coupon.value / 100) +
-            orderData.shippingPrice
-          ).toFixed(2)
-          
-        : (
-          orderData.orderTotal -
-            orderData.coupon.value +
-            orderData.shippingPrice
-          ).toFixed(2))
-      })
+        total:
+          orderData.coupon == ""
+            ? (orderData.orderTotal + orderData.shippingPrice).toFixed(2)
+            : orderData.coupon.discountType === "percentage"
+            ? (
+                orderData.orderTotal * (1 - orderData.coupon.value / 100) +
+                orderData.shippingPrice
+              ).toFixed(2)
+            : (
+                orderData.orderTotal -
+                orderData.coupon.value +
+                orderData.shippingPrice
+              ).toFixed(2),
+      });
     }
-  },[orderData.orderTotal,orderData.coupon])
-
-
- 
+  }, [orderData.orderTotal, orderData.coupon, orderData.shippingPrice]);
 
   return (
     <main className="main">

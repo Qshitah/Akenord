@@ -8,11 +8,11 @@ export default function HeaderTop() {
         <div className="header__contact">
           <span>(+212) - 654404611</span>
 
-          <span> Our location</span>
+          <span> support@akenord.ma</span>
         </div>
 
         <p className="header__alert-news">
-          Super Value Deals - Save more with coupons
+          Buy three, ship for free – our Triple Delight Deal awaits!
         </p>
         {sessionStorage.getItem("token") ? <p>Welcome Back</p> : <Link to="/login" className="header__top-action">
           Log In / Sign Up

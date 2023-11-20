@@ -93,7 +93,7 @@ export default function UpdateProfile({user, client}) {
         });
       }
 
-      await axios.put(`https://akenord.onrender.com/api/users/${client.username}`, {...client,...userInfo})
+      await axios.put(`https://akenord.ma:8443/api/users/${client.username}`, {...client,...userInfo})
         .then((response) => {
           dispatch(userUpdated(userInfo));
           setUpdateSuccess(true);

@@ -15,12 +15,11 @@ export default function Email(orderData) {
         <div id=${styles.company} className=${styles.clearfix}>
           <div>Akenord sarl</div>
           <div>
-            455 Foggy Heights,
-            <br /> Tangier,Morocco
+            Tangier,Morocco
           </div>
           <div>(212) 654-404611</div>
           <div>
-            <a id=${styles.link} href="mailto:marouan.akechtah@gmail.com">marouan.akechtah@gmail.com</a>
+            <a id=${styles.link} href="mailto:support@akenord.ma">support@akenord.ma</a>
           </div>
         </div>
         <div id=${styles.project}>
@@ -78,7 +77,7 @@ export default function Email(orderData) {
             </tr>
             <tr>
               <td colspan="4">Shipping</td>
-              <td className=${styles.total}>${orderData.shippingPrice}Dh</td>
+              <td className=${styles.total}>${orderData.shippingPrice == 0 ? "Free Shipping":orderData.shippingPrice + " Dh"}</td>
             </tr>
             ${orderData.coupon !== "" ?
             `

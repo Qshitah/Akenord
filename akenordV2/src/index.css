@@ -86,6 +86,7 @@ h4 {
   font-family: var(--second-font);
   color: var(--title-color);
   font-weight: var(--weight-600);
+  margin-top: 5px;
 }
 
 ul {
@@ -817,6 +818,7 @@ table {
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 0.5rem;
+  padding: 2px;
 }
 
 /*=============== NEWSLETTER ===============*/
@@ -1091,8 +1093,8 @@ table {
 }
 
 .color__link {
-  width: 26px;
-  height: 26px;
+  width: 35px;
+  height: 35px;
   padding: 5px;
   border-radius: 50%;
   display: block;
@@ -1285,6 +1287,7 @@ table {
 
 .table__img {
   width: 80px;
+  height: 80px;
 }
 
 .table tr th,

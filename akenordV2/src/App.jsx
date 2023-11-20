@@ -4,7 +4,7 @@ import {
   createBrowserRouter,
   useNavigate,
 } from "react-router-dom";
-import ReactLoading from 'react-loading';
+import ReactLoading from "react-loading";
 import ClipLoader from "react-spinners/ClipLoader";
 import Main from "./components/Main";
 import { useEffect, useState } from "react";
@@ -30,13 +30,14 @@ import Products from "./components/Admin/Products/Products";
 import NotFound from "./components/NotFound";
 import ScrollToTop from "./ScrollToTop";
 import CommingSoon from "./components/CommingSoon/CommingSoon";
-import ReactGA from 'react-ga';
+import ReactGA from "react-ga";
+import AboutUs from "./components/AboutUs/AboutUs";
+import CheckoutSuccess from "./components/Checkout/CheckoutSuccess";
 
 function App() {
-
   useEffect(() => {
     // Initialize ReactGA with your Measurement ID
-    ReactGA.initialize('G-STPT7BJPVX'); // Replace with your Measurement ID
+    ReactGA.initialize("G-STPT7BJPVX"); // Replace with your Measurement ID
 
     // Send a pageview to Google Analytics when the app loads
     ReactGA.pageview(window.location.pathname);
@@ -53,17 +54,19 @@ function App() {
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
-    roles : []
+    roles: [],
   });
   const [ordersList, setOrdersList] = useState([]);
 
-  const [commingSoon,SetCommingSoon] = useState(false);
+  const [commingSoon, SetCommingSoon] = useState(false);
 
   const dispatch = useDispatch();
 
   const ObjectProducts = useSelector((state) => state.products.products);
   const ObjectCategories = useSelector((state) => state.category.categories);
-  const ObjectSubCategories = useSelector((state) => state.subCategory.subCategories);
+  const ObjectSubCategories = useSelector(
+    (state) => state.subCategory.subCategories
+  );
   const ObjectWishlists = useSelector((state) => state.wishlist.products);
   const ObjectUser = useSelector((state) => state.user.user);
   const ObjectCarts = useSelector((state) => state.cart.products);
@@ -165,7 +168,7 @@ function App() {
           ...loginData,
           username: payloadObj.username,
           password: payloadObj.password,
-          roles: payloadObj.roles
+          roles: payloadObj.roles,
         });
       } else {
         console.log("Invalid token format");
@@ -182,29 +185,39 @@ function App() {
     }
   }, [loginData]);
 
-
   if (loading) {
     return (
-      <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <ReactLoading type="bubbles" color="#ffab07" height={150} width={150} />
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ReactLoading type="bubbles" color="#ffab07" height={150} width={150} />
       </div>
     );
   }
 
-  if(commingSoon){
-    return(
-      <CommingSoon />
-    )
+  if (commingSoon) {
+    return <CommingSoon />;
   }
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Main listWishlist={listWishlists} listCart={listCart}/>,
+      element: <Main listWishlist={listWishlists} listCart={listCart} />,
       children: [
         {
           index: true,
-          element: <Body listProducts={listProducts} client={loginData} subcategories={listSubCategories} />,
+          element: (
+            <Body
+              listProducts={listProducts}
+              client={loginData}
+              subcategories={listSubCategories}
+            />
+          ),
         },
         {
           path: "shop",
@@ -241,14 +254,30 @@ function App() {
               <Navigate to={"/"} />
             ) : !sessionStorage.getItem("token") ? (
               <Navigate to={"/login"} />
-            ) : ( userData === undefined ? setLoading(true) : <Checkout client={loginData} userData={userData} />
+            ) : userData === undefined ? (
+              setLoading(true)
+            ) : (
+              <Checkout client={loginData} userData={userData} />
             ),
+        },
+        ,
+        {
+          path: "checkoutsuccess",
+          element: !sessionStorage.getItem("token") ? (
+            <Navigate to={"/login"} />
+          ) : userData === undefined ? (
+            setLoading(true)
+          ) : (
+            <CheckoutSuccess />
+          ),
         },
         {
           path: "myaccount",
           element: !sessionStorage.getItem("token") ? (
             <Navigate to={"/login"} />
-          ) : ( userData === undefined ? setLoading(true) :
+          ) : userData === undefined ? (
+            setLoading(true)
+          ) : (
             <Account
               client={loginData}
               orders={ordersList}
@@ -264,6 +293,11 @@ function App() {
             <Login />
           ),
         },
+        ,
+        {
+          path: "aboutus",
+          element: <AboutUs />,
+        },
       ],
     },
     {
@@ -272,26 +306,36 @@ function App() {
       children: [
         {
           index: true,
-          element:  !sessionStorage.getItem("token") ? (
+          element: !sessionStorage.getItem("token") ? (
             <Navigate to={"/login"} />
-          ) : (loginData.roles.filter(value => value.name === "ROLE_ADMIN").length > 0) ? <AddProduct categories={listCategories} subCategories={listSubCategories} products={listProducts} client={loginData}/>
-          : <Navigate to={"/"} />,
+          ) : loginData.roles.filter((value) => value.name === "ROLE_ADMIN")
+              .length > 0 ? (
+            <AddProduct
+              categories={listCategories}
+              subCategories={listSubCategories}
+              products={listProducts}
+              client={loginData}
+            />
+          ) : (
+            <Navigate to={"/"} />
+          ),
         },
         {
           path: "products", // Specify the path without a leading slash
           element: !sessionStorage.getItem("token") ? (
             <Navigate to={"/login"} />
-          ) : loginData.roles.some(value => value.name === "ROLE_ADMIN") ? (
+          ) : loginData.roles.some((value) => value.name === "ROLE_ADMIN") ? (
             <Products listProducts={listProducts} client={loginData} />
           ) : (
             <Navigate to={"/"} />
           ),
         },
       ],
-    },{
-      path :'*',
-      element: <NotFound />
-    }
+    },
+    {
+      path: "*",
+      element: <NotFound />,
+    },
   ]);
 
   return (

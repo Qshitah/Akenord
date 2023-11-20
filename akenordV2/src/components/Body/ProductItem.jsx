@@ -21,48 +21,44 @@ export default function ProductItem({ value,index, client }) {
   }, [ObjectWishlists, ObjectCarts]);
 
 
-  const handleWishlistClick = async (e) =>{
+  const handleWishlistClick = async (e) => {
     e.preventDefault();
-    if(wishlist !== null){
-      if(wishlist.includes(value.name)){
-        setWishlist(wishlist.filter(item => item !== value.name));
+    if ((client.username !== "")) {
+      if (wishlist !== null && wishlist.includes(value.name)) {
+        setWishlist(wishlist.filter((item) => item !== value.name));
         dispatch(removeFromWishlist(value.name));
 
         try {
           const response = await axios.delete(
-            `https://akenord.onrender.com/api/wishlists/${client.username}/${value.name.replace(/\s/g, '-')}`
+            `https://akenord.ma:8443/api/wishlists/${
+              client.username
+            }/${value.name.replace(/\s/g, "-")}`
           );
         } catch (error) {
           console.log(error);
         }
-
-      }else{
+      } else {
         let object = {
           username: client.username,
           product_name: value.name,
-          created_at: new Date()
-        }
-        setWishlist([
-          ...wishlist,
-          object.product_name
-        ])
+          created_at: new Date(),
+        };
+        wishlist !== null ? setWishlist([...wishlist, object.product_name]) :setWishlist([object.product_name]);
         dispatch(addToWishlist(object.product_name));
-  
+
         try {
           const response = await axios.post(
-            "https://akenord.onrender.com/api/wishlists",
+            "https://akenord.ma:8443/api/wishlists",
             object
           );
         } catch (error) {
           console.log(error);
         }
       }
-      
-
     }else{
-      setWishlist({})
+      navigate("/login");
     }
-  }
+  };
     
   return (
     <div className="product__item swiper-slide">

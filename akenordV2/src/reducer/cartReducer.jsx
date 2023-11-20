@@ -26,9 +26,10 @@ import {
           error: action.payload,
         };
       case ADD_TO_CART:
+        console.log(action.payload);
         return {
           ...state,
-          products: state.products !== null ?  [...state.products,action.payload] : [action.payload],
+          products: state.products !== null ? [...state.products, action.payload] : [action.payload],
           error: null,
         };
       case REMOVE_FROM_CART:

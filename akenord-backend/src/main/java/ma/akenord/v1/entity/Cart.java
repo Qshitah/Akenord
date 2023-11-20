@@ -24,8 +24,6 @@ public class Cart {
     @Id
     private String username_user;
 
-
-
     @OneToOne(fetch = FetchType.EAGER,cascade = {CascadeType.DETACH,CascadeType.MERGE
             ,CascadeType.PERSIST
             ,CascadeType.REFRESH})
@@ -38,8 +36,7 @@ public class Cart {
     @JsonIgnore
     private LocalDateTime created_at;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartProduct> cartProducts;
 
 

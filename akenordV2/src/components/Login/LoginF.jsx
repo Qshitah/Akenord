@@ -23,7 +23,7 @@ export default function LoginF(props) {
 
         props.loading();
         
-        await axios.post("https://akenord.onrender.com/api/auth/loginfb",loginData)
+        await axios.post("https://akenord.ma:8443/api/auth/loginfb",loginData)
             .then((responseP) => {
                 sessionStorage.setItem("token", responseP.data.token);
                 window.location.href = "/";

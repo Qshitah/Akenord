@@ -58,7 +58,6 @@ export default function LoginForm(props) {
     }
 
     props.loading();
-
     dispatch(loginUser(loginData))
 
   };

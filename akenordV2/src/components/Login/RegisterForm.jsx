@@ -54,6 +54,7 @@ export default function RegisterForm(props) {
   const handleRegister = (e) => {
     e.preventDefault();
 
+
     setErreur({
       erreur:"",
       type:""
@@ -68,6 +69,7 @@ export default function RegisterForm(props) {
     }
 
     if(!/^[a-zA-Z0-9_-]{3,20}$/.test(formData.username)){
+
       return setErreur({
         erreur: "Username must contain only letters, numbers, underscores, and hyphens",
         type: "username"
@@ -145,6 +147,7 @@ export default function RegisterForm(props) {
     }
 
     dispatch(register(formData));
+    props.loading();
 
   }
 
@@ -153,7 +156,9 @@ export default function RegisterForm(props) {
   useEffect(()=>{
     if (error) {
       console.log(error);
+      props.loading();
     } else if (user) {
+      props.loading();
       setFormData({
         username: "",
    

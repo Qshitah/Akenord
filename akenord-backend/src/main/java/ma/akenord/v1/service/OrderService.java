@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import ma.akenord.v1.entity.*;
 import ma.akenord.v1.repository.*;
-import ma.akenord.v1.request.CartRequest;
-import ma.akenord.v1.request.CartResponse;
 import ma.akenord.v1.request.OrderRequest;
 import ma.akenord.v1.request.OrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +83,7 @@ public class OrderService {
             List<OrderProduct> orderProducts = new ArrayList<>();
             Order savedOrder = orderRepository.save(order);
 
+
             for (List<Object> item : request.getProducts()) {
                 Product product = productRepository.findByName((String) item.get(1));
                 if (product == null) {
@@ -104,11 +103,7 @@ public class OrderService {
 
 
                 OrderProduct orderProduct = new OrderProduct();
-                OrderProduct.OrderProductId orderProductId = new OrderProduct.OrderProductId();
-                orderProductId.setOrderId(savedOrder.getId()); // Set the order ID
-                orderProductId.setProductId(product.getId());
                 orderProduct.setPrice(priceD.floatValue());
-                orderProduct.setId(orderProductId);
                 orderProduct.setOrder(savedOrder);
                 orderProduct.setProduct(product);
                 orderProduct.setQuantity(quantity);
@@ -117,6 +112,8 @@ public class OrderService {
 
                 // Add the OrderProduct to the list
                 orderProducts.add(orderProduct);
+
+
             }
 
             // Save the OrderProduct and do any additional logic

@@ -124,28 +124,28 @@ export default function CheckoutForm({ client, villes, shipping, handleRegionsCh
     if(erreur.erreur.trim() === ""){
       
 
-      await axios.post("https://akenord.onrender.com/api/orders", orderData)
+      await axios.post("https://akenord.ma:8443/api/orders", orderData)
       .then((response) => {
         Email(orderData).then((response2) =>{
           const byteArray = new Uint8Array(response2);
-          axios.post("https://akenord.onrender.com/send-email", {emailContent: Array.from(byteArray) ,clientEmail: orderData.email}) // Send only the email content
+          axios.post("https://akenord.ma:8443/send-email", {emailContent: Array.from(byteArray) ,clientEmail: orderData.email}) // Send only the email content
           .then((response3) => {
-            // You can add additional logic or UI updates here
-          })
+           
+                    })
           .catch((error) => {
             console.error("Failed to send email: ", error);
             // Handle errors or show error messages
           });
         })
         dispatch(removeAll());
-        navigate("/");
+        navigate('/checkoutsuccess', { state: { orderData: orderData } });
         return;
+        
       })
       .catch((error) => {
         console.error("Failed to send Order: ", error);
         // Handle errors or show error messages
       });
-
     }
   };
 

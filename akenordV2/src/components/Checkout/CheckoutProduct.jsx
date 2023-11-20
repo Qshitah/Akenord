@@ -28,7 +28,7 @@ export default function CheckoutProduct({
     if (coupon.name.trim() !== "") {
       try {
         const response = await axios.get(
-          `https://akenord.onrender.com/api/coupons/search/findByCode?code=${coupon.name}`
+          `https://akenord.ma:8443/api/coupons/search/findByCode?code=${coupon.name}`
         );
         setCoupon({
           ...coupon,
@@ -211,20 +211,7 @@ export default function CheckoutProduct({
       <div className="payment__methods">
         <h2 className="checkout__title payment__title">Payment</h2>
 
-        <div className="payment__option flex">
-          <input
-            type="radio"
-            name="radio"
-            value="Direct Bank Transfer"
-            checked={orderData.paiment === "Direct Bank Transfer"}
-            onChange={handleChange}
-            className="payment__input"
-          />
-          <label htmlFor="" className="payment__label">
-            Direct Bank Transfer
-          </label>
-        </div>
-
+        
         <div className="payment__option flex">
           <input
             type="radio"

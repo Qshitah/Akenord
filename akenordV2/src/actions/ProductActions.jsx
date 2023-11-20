@@ -25,7 +25,7 @@ export const products = () => {
     try {
 
       // Make an API request to your backend for authentication
-      const response = await axios.get("https://akenord.onrender.com/api/products?page=0&size=1000");
+      const response = await axios.get("https://akenord.ma:8443/api/products?page=0&size=1000");
 
 
       // Dispatch a success action with user data

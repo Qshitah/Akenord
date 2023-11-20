@@ -10,7 +10,7 @@ import regions from "../../json/regions.json";
 import villesJson from "../../json/villes.json";
 
 export default function Cart({ listProducts, listCart, client }) {
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState([]);
   const [quantity, setQuantity] = useState({});
   const [shipping, setShipping] = useState({
     regions: "empty",
@@ -40,20 +40,29 @@ export default function Cart({ listProducts, listCart, client }) {
       );
       filteredProducts.push(...matchingProducts);
     });
-    setProducts(filteredProducts.map((value,index) => ({...value,color: listCart[index].color, size: listCart[index].size,idCart:parseInt(listCart[index].id)})));
+    setProducts(
+      filteredProducts.map((value, index) => ({
+        ...value,
+        color: listCart[index].color,
+        size: listCart[index].size,
+        idCart: parseInt(listCart[index].id),
+      }))
+    );
 
     const initialQuantity = {};
     listCart.forEach((product, index) => {
-      initialQuantity[product.id] = product.quantity; // Set the initial quantity to 1
+      initialQuantity[product.id] = product.quantity || 1; // Set the initial quantity to 1
     });
     setQuantity(initialQuantity);
   }, [listProducts, listCart]);
 
   const handleQuantityChange = (e) => {
-    let newQuantity = parseInt(e.currentTarget.value);
+    let newQuantity = parseInt(e.currentTarget.value, 10) || 1;
 
-    const stock = products.filter((value) => value.idCart == e.currentTarget.name)[0].stock;
-    if(newQuantity >= stock){
+    const stock = products.filter(
+      (value) => value.idCart == e.currentTarget.name
+    )[0].stock;
+    if (newQuantity >= stock) {
       newQuantity = stock;
     }
 
@@ -78,34 +87,53 @@ export default function Cart({ listProducts, listCart, client }) {
 
   const handleRemoveFromCart = async (e) => {
     e.preventDefault();
-    if (products !== null) {
-      if (listCart[e.currentTarget.id].id == e.currentTarget.name) {
-        setProducts(
-          products.filter((item,index) => item.id !== e.currentTarget.name)
-        );
-        dispatch(removeFromCart(e.currentTarget.name));
-        delete quantity[e.currentTarget.name]
 
-          await axios.delete(
-            `https://akenord.onrender.com/api/carts/${
-              client.username
-            }/${e.currentTarget.name}`
-          ).then((response) => {
-          }).catch ((error) => {
-            console.log(error);
-
-          });
+    const productName = e.currentTarget.name;
+  
+    // Check if the event is valid
+    if (e && e.currentTarget && e.currentTarget.id && productName) {
+      if (products !== null) {
+        if (listCart[e.currentTarget.id].id == productName) {
+          try {
+            // Use axios directly without the need for .then() and .catch()
+            await axios.delete(
+              `https://akenord.ma:8443/api/carts/${client.username}/${productName}`
+            );
+  
+            // Update the products state
+            setProducts((prevProducts) =>
+              prevProducts.filter((item) => item.id !== productName)
+            );
+  
+            // Update the quantity state
+            setQuantity((prevQuantity) => {
+              const newQuantity = { ...prevQuantity };
+              delete newQuantity[productName];
+              return newQuantity;
+            });
+  
+            // Dispatch the action to remove from cart
+            dispatch(removeFromCart(productName));
+          } catch (error) {
+            console.log("Error removing product from cart:", error);
+          }
+        }
+      } else {
+        setProducts({});
       }
     } else {
-      setProducts({});
+      console.error("Invalid event or event properties.");
     }
   };
+  
 
   const calculateCartSubtotal = () => {
     let subtotal = 0;
     if (products !== undefined) {
       products.forEach((product, index) => {
-        const productPrice = parseFloat(product.discountPrice !== 0 ? product.discountPrice : product.price);
+        const productPrice = parseFloat(
+          product.discountPrice !== 0 ? product.discountPrice : product.price
+        );
         const productQuantity = quantity[product.idCart];
         subtotal += productPrice * productQuantity;
       });
@@ -117,12 +145,12 @@ export default function Cart({ listProducts, listCart, client }) {
   const handleRegionsChange = (e) => {
     e.preventDefault();
     const name = e.currentTarget.name;
-    let price = 15;
-    if (name === "regions" && e.currentTarget.value == 12)  {
-      price = 30;
+    let price = 30;
+    if (name === "villes" && ["382","346","130","209","215","248"].includes(e.currentTarget.value)) {
+      price = 15;
     }
-    if(name !== "regions" &&  shipping.regions == 12){
-      price = 30;
+    if(listCart.length >=3){
+      price = 0;
     }
     setShipping({
       ...shipping,
@@ -136,7 +164,7 @@ export default function Cart({ listProducts, listCart, client }) {
     if (coupon.name.trim() !== "") {
       try {
         const response = await axios.get(
-          `https://akenord.onrender.com/api/coupons/search/findByCode?code=${coupon.name}`
+          `https://akenord.ma:8443/api/coupons/search/findByCode?code=${coupon.name}`
         );
         setCoupon({ ...coupon, coupon: response.data });
       } catch (error) {
@@ -156,12 +184,13 @@ export default function Cart({ listProducts, listCart, client }) {
     return "empty";
   };
 
-  const navigateCheckout = () =>{
-    if(products !== undefined && checkObjectisNotEmpty(quantity) !== "empty"){
-      navigate('/checkout', { state: {products: products,quantity : quantity}});
+  const navigateCheckout = () => {
+    if (products !== undefined && checkObjectisNotEmpty(quantity) !== "empty") {
+      navigate("/checkout", {
+        state: { products: products, quantity: quantity },
+      });
     }
-    
-  }
+  };
 
   return (
     <main className="main">
@@ -183,60 +212,78 @@ export default function Cart({ listProducts, listCart, client }) {
 
             <tbody>
               {products !== undefined &&
-                products.map((value, index) => (
-                  (value.stock !== 0 && <tr key={index}>
-                    <td>
-                      <img
-                        src={JSON.parse(value.images)[0]}
-                        alt=""
-                        className="table__img"
-                      />
-                    </td>
+                products.map(
+                  (value, index) =>
+                    value.stock !== 0 && (
+                      <tr key={index}>
+                        <td>
+                          <img
+                            src={JSON.parse(value.images)[0]}
+                            alt=""
+                            className="table__img"
+                          />
+                        </td>
 
-                    <td>
-                      <h2 className="table__title">{value.name}</h2>
-                      {(value.size !== "" || value.size == null) && <p className="table__description">Size: {value.size.toUpperCase()}</p>}
-                      {(value.color !== "" || value.color == null) && <p className="table__description">Color: {value.color}</p>}
-                    </td>
+                        <td>
+                          <h2 className="table__title">{value.name}</h2>
+                          {(value.size !== "" || value.size == null) && (
+                            <p className="table__description">
+                              Size: {value.size.toUpperCase()}
+                            </p>
+                          )}
+                          {(value.color !== "" || value.color == null) && (
+                            <p className="table__description">
+                              Color: {value.color}
+                            </p>
+                          )}
+                        </td>
 
-                    <td>
-                      <span className="table__price">
-                        {value.discountPrice !== 0 ? value.discountPrice : value.price}Dh
-                      </span>
-                    </td>
+                        <td>
+                          <span className="table__price">
+                            {value.discountPrice !== 0
+                              ? value.discountPrice
+                              : value.price}
+                            Dh
+                          </span>
+                        </td>
 
-                    <td>
-                      <input
-                        type="number"
-                        className="quantity"
-                        value={quantity[value.idCart]}
-                        name={value.idCart}
-                        onChange={handleQuantityChange}
-                      />
-                    </td>
+                        <td>
+                          <input
+                            type="number"
+                            className="quantity"
+                            value={quantity[value.idCart]}
+                            name={value.idCart}
+                            onChange={handleQuantityChange}
+                          />
+                        </td>
 
-                    <td>
-                      <span className="table__subtotal">
-                        {((value.discountPrice !== 0 ? value.discountPrice : value.price) * quantity[value.idCart]).toFixed(2)}Dh
-                      </span>
-                    </td>
+                        <td>
+                          <span className="table__subtotal">
+                            {(
+                              (value.discountPrice !== 0
+                                ? value.discountPrice
+                                : value.price) * quantity[value.idCart]
+                            ).toFixed(2)}
+                            Dh
+                          </span>
+                        </td>
 
-                    <td>
-                      <button
-                        type="button"
-                        id={index}
-                        onClick={handleRemoveFromCart}
-                        name={value.idCart}
-                      >
-                        <i
-                          className="fi fi-rs-trash table__trash"
-                          style={{ cursor: "pointer" }}
-                        ></i>
-                      </button>
-                    </td>
-                  </tr>)
-                  
-                ))}
+                        <td>
+                          <button
+                            type="button"
+                            id={index}
+                            onClick={(e) => handleRemoveFromCart(e)}
+                            name={value.idCart}
+                          >
+                            <i
+                              className="fi fi-rs-trash table__trash"
+                              style={{ cursor: "pointer" }}
+                            ></i>
+                          </button>
+                        </td>
+                      </tr>
+                    )
+                )}
             </tbody>
           </table>
         </div>
@@ -304,7 +351,10 @@ export default function Cart({ listProducts, listCart, client }) {
             <div className="cart__coupon">
               <h2 className="section__title">Apply Coupon</h2>
 
-              <form  className="coupon__form form grid" onSubmit={handleClickCoupon}>
+              <form
+                className="coupon__form form grid"
+                onSubmit={handleClickCoupon}
+              >
                 <div className="form__group grid">
                   <input
                     type="text"
@@ -317,10 +367,7 @@ export default function Cart({ listProducts, listCart, client }) {
                   />
 
                   <div className="form__btn">
-                    <button
-                      type="submit"
-                      className="btn flex btn--sm"
-                    >
+                    <button type="submit" className="btn flex btn--sm">
                       <i className="fi-rs-label"></i> Apply
                     </button>
                   </div>
@@ -381,7 +428,7 @@ export default function Cart({ listProducts, listCart, client }) {
                         ? coupon.coupon.discountType === "percentage"
                           ? (
                               calculateCartSubtotal() *
-                                (1 - (coupon.coupon.value/100)) +
+                                (1 - coupon.coupon.value / 100) +
                               shipping.price
                             ).toFixed(2) + "Dh"
                           : (

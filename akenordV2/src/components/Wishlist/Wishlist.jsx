@@ -27,7 +27,7 @@ export default function Wishlist({ listProducts, listWishlist, client }) {
 
         try {
           const response = await axios.delete(
-            `https://akenord.onrender.com/api/wishlists/${client.username}/${e.currentTarget.name.replace(/\s/g, '-')}`
+            `https://akenord.ma:8443/api/wishlists/${client.username}/${e.currentTarget.name.replace(/\s/g, '-')}`
           );
         } catch (error) {
           console.log(error);

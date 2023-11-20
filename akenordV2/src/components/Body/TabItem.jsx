@@ -32,7 +32,7 @@ export default function TabItem({ value, index, client }) {
 
         try {
           const response = await axios.delete(
-            `https://akenord.onrender.com/api/wishlists/${
+            `https://akenord.ma:8443/api/wishlists/${
               client.username
             }/${value.name.replace(/\s/g, "-")}`
           );
@@ -50,7 +50,7 @@ export default function TabItem({ value, index, client }) {
 
         try {
           const response = await axios.post(
-            "https://akenord.onrender.com/api/wishlists",
+            "https://akenord.ma:8443/api/wishlists",
             object
           );
         } catch (error) {

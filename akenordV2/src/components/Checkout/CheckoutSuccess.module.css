@@ -1,0 +1,24 @@
+
+
+.product_img {
+    width: 40% ;
+}
+.customer_info, .total_amount {
+    background-color: aliceblue;
+    
+}
+
+.section_content {
+    padding: 50px;
+}
+.product_name {
+    font-weight: bold;
+}
+
+.footer {
+    height: 75px ;
+}
+
+
+
+
